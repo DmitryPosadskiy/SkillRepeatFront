@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://192.168.100.7:8080/';
+const SERVER_URL = 'http://skill-repeater-prod.us-east-2.elasticbeanstalk.com/';
 
 const USER_MAIN = SERVER_URL + 'user/';
 
