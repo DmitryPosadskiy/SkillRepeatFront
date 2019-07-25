@@ -1,4 +1,4 @@
-const SERVER_URL = 'https://skill-repeater-prod.us-east-2.elasticbeanstalk.com/';
+const SERVER_URL = 'https://server.posadskiy.space/';
 
 const USER_MAIN = SERVER_URL + 'user/';
 
