@@ -73,7 +73,7 @@ class Skill extends Component {
 					<Header as='h4'>
 						<Label circular size='huge' color={isNeedRepeat ? 'yellow' : 'green'}>{level}</Label>
 						<Header.Content>{name}
-							<Header.Subheader>Last repeat {repeatAgoView}</Header.Subheader>
+							<Header.Subheader>{repeatAgoView}</Header.Subheader>
 						</Header.Content>
 					</Header>
 				</List.Content>
