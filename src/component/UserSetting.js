@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Divider } from 'semantic-ui-react';
+import { Button, Divider, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 
 import Action from '../action';
@@ -9,12 +9,26 @@ class UserSetting extends Component {
 		const {
 			logOut,
 			deleteAccount,
+			goToUserChangePasswordPage,
 		} = this.props;
 
 		return (
 			<div>
+				<Label color='teal'>
+					Repeat Setting
+				</Label>
 				<Button.Group basic vertical fluid>
-					<Button>Account settings</Button>
+					<Button>Change password</Button>
+					<Button onClick={logOut}>Log out</Button>
+				</Button.Group>
+				<Divider />
+				<Label color='teal'>
+					Account Setting
+				</Label>
+				<Button.Group basic vertical fluid>
+					<Button>Account Info</Button>
+					<Button>Change photo</Button>
+					<Button onClick={goToUserChangePasswordPage}>Change password</Button>
 					<Button onClick={logOut}>Log out</Button>
 				</Button.Group>
 				<Divider />

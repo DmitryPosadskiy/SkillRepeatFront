@@ -29,6 +29,9 @@ const page = (state = defaultState, action) => {
         case ActionType.Page.USER_FORGOT_PASSWORD_PAGE: return {
             activePage: Page.USER_FORGOT_PASSWORD,
         };
+        case ActionType.Page.USER_CHANGE_PASSWORD_PAGE: return {
+            activePage: Page.USER_CHANGE_PASSWORD,
+        };
         case ActionType.Page.USER_SETTINGS_PAGE: return {
             activePage: Page.USER_SETTINGS,
         };

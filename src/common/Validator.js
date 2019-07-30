@@ -29,3 +29,16 @@ export const AuthValidator = {
 	authEmailValidate,
 	authPasswordValidate,
 };
+
+const changePasswordValidate = (auth) => authPasswordValidate(auth.oldPassword)
+	&& authPasswordValidate(auth.newPassword)
+	&& authPasswordValidate(auth.repeatNewPassword)
+	&& authPasswordValidate(auth.newPassword, auth.repeatNewPassword);
+
+const authPasswordsAreEquals = (pass, anotherPass) => pass === anotherPass;
+
+export const ChangePasswordValidator = {
+	changePasswordValidate,
+	authPasswordValidate,
+	authPasswordsAreEquals
+};

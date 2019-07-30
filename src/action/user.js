@@ -71,7 +71,20 @@ const deleteAccount = (userId) => dispatch => {
 	dispatch(Action.Page.setMainPage());
 };
 
-const auth = (login, password) => dispatch => {
+const changePassword = (userId, oldPassword, newPassword) => dispatch => {
+	const auth = {
+		oldPassword: hmacSha256(oldPassword, "$!@#$%$#@").toString(),
+		password: hmacSha256(newPassword, "$!@#$%$#@").toString(),
+	};
+
+	axios.post(URL.USER.CHANGE_PASSWORD(userId), auth, RequestConfig)
+		.then(() => dispatch({
+			type: ActionType.User.CHANGE_PASSWORD_SUCCESS,
+		}));
+	dispatch(Action.Page.setMainPage());
+};
+
+const auth = (email, password) => dispatch => {
 	const user = {
 		email,
 		password: hmacSha256(password, "$!@#$%$#@").toString(),
@@ -133,6 +146,7 @@ const User = {
 	deleteSkill,
 	save,
 	deleteAccount,
+	changePassword,
 	repeatSkill,
 	auth,
 	registration,

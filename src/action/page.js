@@ -21,6 +21,10 @@ const goToUserForgotPasswordPage = () => ({
     type: ActionType.Page.USER_FORGOT_PASSWORD_PAGE,
 });
 
+const goToUserChangePasswordPage = () => ({
+    type: ActionType.Page.USER_CHANGE_PASSWORD_PAGE,
+});
+
 const goToUserLoginPage = () => ({
     type: ActionType.Page.USER_LOGIN_PAGE,
 });
@@ -35,6 +39,7 @@ const Page = {
     setAddPage,
     goToUserCreatePage,
     goToUserForgotPasswordPage,
+    goToUserChangePasswordPage,
     goToUserLoginPage,
     goToUserSettingsPage,
 };

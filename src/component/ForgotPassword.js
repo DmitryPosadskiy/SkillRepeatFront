@@ -49,7 +49,6 @@ class ForgotPassword extends Component {
 			isEmailValidationError,
 		} = this.state;
 
-		console.log(isEmailValidationError, isValidationError);
 		return (
 			<Grid verticalAlign='middle' style={{ height: '100vh' }} columns={1} centered>
 				<Grid.Row>
