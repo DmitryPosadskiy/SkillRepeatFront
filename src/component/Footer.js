@@ -20,7 +20,7 @@ class Footer extends Component {
 			isAuth,
 		} = this.props;
 
-		const userPage = isAuth ? Page.USER_SETTINGS : Page.USER_LOGIN
+		const userPage = isAuth ? Page.USER_SETTINGS : Page.USER_LOGIN;
 
 		return (
 			<Container>

@@ -73,13 +73,12 @@ const deleteAccount = (userId) => dispatch => {
 
 const auth = (login, password) => dispatch => {
 	const user = {
-		login,
+		email,
 		password: hmacSha256(password, "$!@#$%$#@").toString(),
 	};
 
 	axios.post(URL.USER.AUTH, user, RequestConfig)
 		.then(result => {
-			console.log(result);
 			dispatch({
 				type: ActionType.User.USER_BY_NAME_SUCCESS,
 				user: result.data,
