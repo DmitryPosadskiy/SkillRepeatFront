@@ -105,6 +105,17 @@ const registration = (user) => dispatch => {
 	dispatch(Action.Page.setMainPage());
 };
 
+const forgotPassword = (email) => dispatch => {
+	const auth = {
+		email,
+	};
+
+	axios.post(URL.USER.FORGOT_PASSWORD, auth, RequestConfig)
+		.then(() => dispatch({
+			type: ActionType.User.FORGOT_PASSWORD_SUCCESS,
+		}));
+};
+
 const logOut = () => (dispatch) => {
 	dispatch(clearUser());
 	dispatch(Action.Page.setMainPage());
@@ -126,6 +137,7 @@ const User = {
 	repeatSkill,
 	auth,
 	registration,
+	forgotPassword,
 	logOut,
 };
 
