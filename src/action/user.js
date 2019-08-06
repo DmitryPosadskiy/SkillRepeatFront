@@ -60,7 +60,16 @@ const save = (user) => dispatch => {
 			type: ActionType.User.SAVE_USER_SUCCESS,
 			user: result.data,
 		}));
-	dispatch(Action.Page.setMainPage());
+	dispatch(Action.Page.openMainPage());
+};
+
+const updateUserAccount = (user) => dispatch => {
+	axios.post(URL.USER.UPDATE, user, RequestConfig)
+		.then(result => dispatch({
+			type: ActionType.User.UPDATE_USER_SUCCESS,
+			user: result.data,
+		}));
+	dispatch(Action.Page.openMainPage());
 };
 
 const deleteAccount = (userId) => dispatch => {
@@ -68,7 +77,7 @@ const deleteAccount = (userId) => dispatch => {
 		.then(() => dispatch({
 			type: ActionType.User.DELETE_USER_SUCCESS,
 		}));
-	dispatch(Action.Page.setMainPage());
+	dispatch(Action.Page.openMainPage());
 };
 
 const changePassword = (userId, oldPassword, newPassword) => dispatch => {
@@ -81,7 +90,25 @@ const changePassword = (userId, oldPassword, newPassword) => dispatch => {
 		.then(() => dispatch({
 			type: ActionType.User.CHANGE_PASSWORD_SUCCESS,
 		}));
-	dispatch(Action.Page.setMainPage());
+	dispatch(Action.Page.openMainPage());
+};
+
+const changeUserEmail = (auth) => dispatch => {
+	axios.post(URL.USER.CHANGE_EMAIL(auth.id), auth, RequestConfig)
+		.then(result => dispatch({
+			type: ActionType.User.CHANGE_EMAIL_SUCCESS,
+			user: result.data,
+		}));
+	dispatch(Action.Page.openMainPage());
+};
+
+const changeUserNotification = (auth) => dispatch => {
+	axios.post(URL.USER.CHANGE_NOTIFICATION(auth.id), auth, RequestConfig)
+		.then(result => dispatch({
+			type: ActionType.User.CHANGE_NOTIFICATION_SUCCESS,
+			user: result.data,
+		}));
+	dispatch(Action.Page.openMainPage());
 };
 
 const auth = (email, password) => dispatch => {
@@ -99,7 +126,7 @@ const auth = (email, password) => dispatch => {
 		})
 		.catch(exception => console.log(exception));
 
-	dispatch(Action.Page.setMainPage());
+	dispatch(Action.Page.openMainPage());
 };
 
 const registration = (user) => dispatch => {
@@ -114,7 +141,7 @@ const registration = (user) => dispatch => {
 			user: result.data,
 		}));
 
-	dispatch(Action.Page.setMainPage());
+	dispatch(Action.Page.openMainPage());
 };
 
 const forgotPassword = (email) => dispatch => {
@@ -130,7 +157,7 @@ const forgotPassword = (email) => dispatch => {
 
 const logOut = () => (dispatch) => {
 	dispatch(clearUser());
-	dispatch(Action.Page.setMainPage());
+	dispatch(Action.Page.openMainPage());
 };
 
 const clearUser = () => {
@@ -145,6 +172,9 @@ const User = {
 	saveSkills,
 	deleteSkill,
 	save,
+	updateUserAccount,
+	changeUserEmail,
+	changeUserNotification,
 	deleteAccount,
 	changePassword,
 	repeatSkill,

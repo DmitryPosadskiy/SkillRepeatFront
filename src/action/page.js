@@ -5,43 +5,58 @@ const changeActivePage = (page) => ({
     page,
 });
 
-const setMainPage = () => ({
+const openMainPage = () => ({
     type: ActionType.Page.MAIN_PAGE,
 });
 
-const setAddPage = () => ({
+const openAddPage = () => ({
     type: ActionType.Page.ADD_PAGE,
 });
 
-const goToUserCreatePage = () => ({
+const openUserCreatePage = () => ({
     type: ActionType.Page.USER_CREATE_PAGE,
 });
 
-const goToUserForgotPasswordPage = () => ({
+const openUserForgotPasswordPage = () => ({
     type: ActionType.Page.USER_FORGOT_PASSWORD_PAGE,
 });
 
-const goToUserChangePasswordPage = () => ({
+const openUserChangePasswordPage = () => ({
     type: ActionType.Page.USER_CHANGE_PASSWORD_PAGE,
 });
 
-const goToUserLoginPage = () => ({
+const openUserChangeEmailPage = () => ({
+    type: ActionType.Page.USER_CHANGE_EMAIL_PAGE,
+});
+
+const openUserChangeNotificationPage = () => ({
+    type: ActionType.Page.USER_CHANGE_NOTIFICATION_PAGE,
+});
+
+const openUserLoginPage = () => ({
     type: ActionType.Page.USER_LOGIN_PAGE,
 });
 
-const goToUserSettingsPage = () => ({
+const openUserSettingsPage = () => ({
     type: ActionType.Page.USER_SETTINGS_PAGE,
+});
+
+const openUserAccountPage = () => ({
+    type: ActionType.Page.USER_ACCOUNT_PAGE,
 });
 
 const Page = {
     changeActivePage,
-    setMainPage,
-    setAddPage,
-    goToUserCreatePage,
-    goToUserForgotPasswordPage,
-    goToUserChangePasswordPage,
-    goToUserLoginPage,
-    goToUserSettingsPage,
+    openMainPage,
+    openAddPage,
+    openUserCreatePage,
+    openUserForgotPasswordPage,
+    openUserChangePasswordPage,
+    openUserChangeEmailPage,
+    openUserChangeNotificationPage,
+    openUserLoginPage,
+    openUserSettingsPage,
+    openUserAccountPage,
 };
 
 export default Page;

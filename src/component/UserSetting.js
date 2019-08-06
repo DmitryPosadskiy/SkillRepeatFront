@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Divider, Label } from 'semantic-ui-react';
+import { Button, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 
 import Action from '../action';
@@ -8,32 +8,23 @@ class UserSetting extends Component {
 	render() {
 		const {
 			logOut,
-			deleteAccount,
-			goToUserChangePasswordPage,
+			openUserAccountPage,
+			openUserChangePasswordPage,
+			openUserChangeEmailPage,
+			openUserChangeNotificationPage,
 		} = this.props;
 
 		return (
 			<div>
 				<Label color='teal'>
-					Repeat Setting
-				</Label>
-				<Button.Group basic vertical fluid>
-					<Button>Change password</Button>
-					<Button onClick={logOut}>Log out</Button>
-				</Button.Group>
-				<Divider />
-				<Label color='teal'>
 					Account Setting
 				</Label>
 				<Button.Group basic vertical fluid>
-					<Button>Account Info</Button>
-					<Button>Change photo</Button>
-					<Button onClick={goToUserChangePasswordPage}>Change password</Button>
+					<Button onClick={openUserAccountPage}>Account Info</Button>
+					<Button onClick={openUserChangeNotificationPage}>Notifications</Button>
+					<Button onClick={openUserChangeEmailPage}>Change email</Button>
+					<Button onClick={openUserChangePasswordPage}>Change password</Button>
 					<Button onClick={logOut}>Log out</Button>
-				</Button.Group>
-				<Divider />
-				<Button.Group vertical fluid>
-					<Button onClick={deleteAccount} negative>Delete account</Button>
 				</Button.Group>
 			</div>
 		)
@@ -41,7 +32,11 @@ class UserSetting extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	logOut: () => Action.User.logOut()(dispatch)
+	logOut: () => Action.User.logOut()(dispatch),
+	openUserAccountPage: () => dispatch(Action.Page.openUserAccountPage()),
+	openUserChangeNotificationPage: () => dispatch(Action.Page.openUserChangeNotificationPage()),
+	openUserChangePasswordPage: () => dispatch(Action.Page.openUserChangePasswordPage()),
+	openUserChangeEmailPage: () => dispatch(Action.Page.openUserChangeEmailPage()),
 });
 
 export default connect(null, mapDispatchToProps)(UserSetting);

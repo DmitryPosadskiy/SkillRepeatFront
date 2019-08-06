@@ -6,7 +6,7 @@ const skillValidate = (skill) => skillNameValidate(skill.name)
 
 const skillNameValidate = (name) => name && name.trim().length > 0;
 const skillRepeatInLastMonthValidate = (period) => period;
-const skillPeriodValidate = (period) => period;
+const skillPeriodValidate = (period) => period > 0;
 const skillTimeValidate = (time) => time && time.trim().length > 0;
 
 export const SkillValidator = {
@@ -41,4 +41,35 @@ export const ChangePasswordValidator = {
 	changePasswordValidate,
 	authPasswordValidate,
 	authPasswordsAreEquals
+};
+
+const createUserNameValidate = (name) => true;
+const createUserAgreeEmailValidate = (isAgree) => true;
+const createUserAgreeTermsValidate = (isAgree) => isAgree;
+
+const createUserValidate = (user) => authEmailValidate(user.email)
+	&& authPasswordValidate(user.password)
+	&& createUserNameValidate(user.name)
+	&& createUserAgreeEmailValidate(user.isAgreeEmails)
+	&& createUserAgreeTermsValidate(user.isAgreeTerms);
+
+export const CreateUserValidator = {
+	createUserValidate,
+	authEmailValidate,
+	authPasswordValidate,
+	createUserNameValidate,
+	createUserAgreeEmailValidate,
+	createUserAgreeTermsValidate,
+};
+
+export const ChangeEmailValidator = {
+	authEmailValidate,
+};
+
+const periodValidate = (period) => period > 0;
+const changeNotificationValidate = (user) => periodValidate(user.period);
+
+export const ChangeNotificationValidator = {
+	changeNotificationValidate,
+	periodValidate,
 };

@@ -8,9 +8,12 @@ import NewSkills from "./NewSkills";
 import CreateUser from './CreateUser';
 import ForgotPassword from './ForgotPassword';
 import ChangePassword from './ChangePassword';
+import ChangeEmail from './ChangeEmail';
+import ChangeNotification from './ChangeNotification';
 import UserSetting from './UserSetting';
 import LoginForm from './LoginForm';
 import Action from "../action";
+import AccountInfo from "./AccountInfo";
 
 class Center extends Component {
 
@@ -22,24 +25,24 @@ class Center extends Component {
 			registration,
 			forgotPassword,
 			changePassword,
-			goToUserLoginPage,
-			goToUserCreatePage,
-			goToUserSettingsPage,
-			goToUserForgotPasswordPage,
-			goToUserChangePasswordPage,
-			deleteAccount,
+			openUserLoginPage,
+			openUserCreatePage,
+			openUserSettingsPage,
+			openUserForgotPasswordPage,
+			openUserChangePasswordPage,
 		} = this.props;
-
-		const deleteAcc = () => deleteAccount(user.id);
 
 		switch(activePage) {
 			case Page.MAIN: return <User/>;
 			case Page.ADD: return <NewSkills/>;
-			case Page.USER_CREATE: return <CreateUser registration={registration} goToUserLoginPage={goToUserLoginPage}/>;
-			case Page.USER_LOGIN: return <LoginForm auth={auth} setUserCreatePage={goToUserCreatePage} setUserForgotPasswordPage={goToUserForgotPasswordPage}/>;
-			case Page.USER_FORGOT_PASSWORD: return <ForgotPassword forgotPassword={forgotPassword} goToUserLoginPage={goToUserLoginPage} />;
-			case Page.USER_CHANGE_PASSWORD: return <ChangePassword userId={user.id} changePassword={changePassword} goToUserSettingsPage={goToUserSettingsPage} />;
-			case Page.USER_SETTINGS: return <UserSetting deleteAccount={deleteAcc} goToUserChangePasswordPage={goToUserChangePasswordPage}/>;
+			case Page.USER_CREATE: return <CreateUser registration={registration} openUserLoginPage={openUserLoginPage}/>;
+			case Page.USER_LOGIN: return <LoginForm auth={auth} setUserCreatePage={openUserCreatePage} setUserForgotPasswordPage={openUserForgotPasswordPage}/>;
+			case Page.USER_FORGOT_PASSWORD: return <ForgotPassword forgotPassword={forgotPassword} openUserLoginPage={openUserLoginPage} />;
+			case Page.USER_CHANGE_PASSWORD: return <ChangePassword userId={user.id} changePassword={changePassword} openUserSettingsPage={openUserSettingsPage} />;
+			case Page.USER_CHANGE_EMAIL: return <ChangeEmail openUserSettingsPage={openUserSettingsPage} />;
+			case Page.USER_CHANGE_NOTIFICATION: return <ChangeNotification openUserSettingsPage={openUserSettingsPage} />;
+			case Page.USER_SETTINGS: return <UserSetting openUserChangePasswordPage={openUserChangePasswordPage}/>;
+			case Page.USER_ACCOUNT: return <AccountInfo openUserSettingsPage={openUserSettingsPage} />;
 			default: return <EmptyPage/>;
 		}
 	}
@@ -55,12 +58,11 @@ const mapDispatchToProps = (dispatch) => ({
 	registration: (user) => Action.User.registration(user)(dispatch),
 	forgotPassword: (email) => Action.User.forgotPassword(email)(dispatch),
 	changePassword: (userId, oldPassword, newPassword) => Action.User.changePassword(userId, oldPassword, newPassword)(dispatch),
-	goToUserLoginPage: () => dispatch(Action.Page.goToUserLoginPage()),
-	goToUserCreatePage: () => dispatch(Action.Page.goToUserCreatePage()),
-	goToUserSettingsPage: () => dispatch(Action.Page.goToUserSettingsPage()),
-	goToUserForgotPasswordPage: () => dispatch(Action.Page.goToUserForgotPasswordPage()),
-	goToUserChangePasswordPage: () => dispatch(Action.Page.goToUserChangePasswordPage()),
-	deleteAccount: () => Action.User.deleteAccount()(dispatch),
+	openUserLoginPage: () => dispatch(Action.Page.openUserLoginPage()),
+	openUserCreatePage: () => dispatch(Action.Page.openUserCreatePage()),
+	openUserSettingsPage: () => dispatch(Action.Page.openUserSettingsPage()),
+	openUserForgotPasswordPage: () => dispatch(Action.Page.openUserForgotPasswordPage()),
+	openUserChangePasswordPage: () => dispatch(Action.Page.openUserChangePasswordPage()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

@@ -11,33 +11,6 @@ const repeatPeriods = [
 	{ key: 'month', text: 'Last month', value: '4' },
 ];
 
-const hoursAtDay = [
-	{ key: '00', text: '00:00', value: '0' },
-	{ key: '01', text: '01:00', value: '1' },
-	{ key: '02', text: '02:00', value: '2' },
-	{ key: '03', text: '03:00', value: '3' },
-	{ key: '04', text: '04:00', value: '4' },
-	{ key: '05', text: '05:00', value: '5' },
-	{ key: '06', text: '06:00', value: '6' },
-	{ key: '07', text: '07:00', value: '7' },
-	{ key: '08', text: '08:00', value: '8' },
-	{ key: '09', text: '09:00', value: '9' },
-	{ key: '10', text: '10:00', value: '10' },
-	{ key: '11', text: '11:00', value: '11' },
-	{ key: '12', text: '12:00', value: '12' },
-	{ key: '13', text: '13:00', value: '13' },
-	{ key: '14', text: '14:00', value: '14' },
-	{ key: '15', text: '15:00', value: '15' },
-	{ key: '16', text: '16:00', value: '16' },
-	{ key: '17', text: '17:00', value: '17' },
-	{ key: '18', text: '18:00', value: '18' },
-	{ key: '19', text: '19:00', value: '19' },
-	{ key: '20', text: '20:00', value: '20' },
-	{ key: '21', text: '21:00', value: '21' },
-	{ key: '22', text: '22:00', value: '22' },
-	{ key: '23', text: '23:00', value: '23' },
-];
-
 class NewSkill extends Component {
 
 	state = {
@@ -168,14 +141,15 @@ class NewSkill extends Component {
 								fluid
 								error={isValidationError && isPeriodError ? 'Please, fill this field' : undefined}
 								label='Days between repeats'
+								type='number'
 								placeholder='3' />
-							<Form.Select
+							<Form.Input
 								value={time}
 								fluid
 								label='Repeat time'
 								error={isValidationError && isTimeError ? 'Please, fill this field' : undefined}
-								options={hoursAtDay}
 								onChange={this.onChangeFormTime}
+								type='time'
 								placeholder='20:00'
 							/>
 						</Form.Group>

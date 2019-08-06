@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Button, Form, Grid, Header} from "semantic-ui-react";
-import { AuthValidator } from '../common/Validator';
+import {ChangeEmailValidator, CreateUserValidator} from "../common/Validator";
+import Action from "../action";
 
-class ForgotPassword extends Component {
+class ChangeEmail extends Component {
+
 	state = {
-		email: '',
+		email: this.props.email,
+
 		isValidationError: false,
 		isEmailValidationError: true,
 	};
@@ -13,7 +17,7 @@ class ForgotPassword extends Component {
 		const {isEmailValidationError} = this.state;
 		const email = event.target.value;
 
-		if (!AuthValidator.authEmailValidate(email)) {
+		if (!CreateUserValidator.authEmailValidate(email)) {
 			!isEmailValidationError && this.setState({isEmailValidationError: true})
 		} else {
 			isEmailValidationError && this.setState({isEmailValidationError: false})
@@ -23,23 +27,34 @@ class ForgotPassword extends Component {
 	};
 
 	cancel = () => {
-		this.props.openUserLoginPage();
+		this.props.openUserSettingsPage();
 	};
 
-	onClickForgotPassword = () => {
+	onClickChangeEmail = () => {
 		const {
 			email,
+
 			isValidationError,
 		} = this.state;
 
-		if (!AuthValidator.authEmailValidate(email)) {
+		const {
+			id,
+			changeUserEmail,
+		} = this.props;
+
+		if (!ChangeEmailValidator.authEmailValidate(email)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
 
 		isValidationError && this.setState({isValidationError: false});
 
-		this.props.forgotPassword(email);
+		const auth = {
+			id,
+			email,
+		};
+
+		changeUserEmail(auth);
 	};
 
 	render() {
@@ -55,21 +70,21 @@ class ForgotPassword extends Component {
 					<Grid.Column>
 						<Form>
 							<Header as='h2' color='teal' textAlign='center'>
-								Forgot password
+								Change email
 							</Header>
 							<Form.Input
 								value={email}
 								onChange={this.onChangeEmail}
-								fluid
-								error={isValidationError && isEmailValidationError ? 'Please, fill this field' : undefined}
-								icon='mail'
+								error={isValidationError && isEmailValidationError ? 'You can use "@" in your e-mail' : undefined}
+								icon='at'
 								iconPosition='left'
-								placeholder='E-mail address'
+								type='email'
+								placeholder='Email'
 							/>
 							<Button.Group fluid>
 								<Button onClick={this.cancel}>Cancel</Button>
 								<Button.Or />
-								<Button onClick={this.onClickForgotPassword} positive>Request new password</Button>
+								<Button onClick={this.onClickChangeEmail} positive>Save</Button>
 							</Button.Group>
 						</Form>
 					</Grid.Column>
@@ -79,4 +94,13 @@ class ForgotPassword extends Component {
 	}
 }
 
-export default ForgotPassword;
+const mapStateToProps = (state) => ({
+	id: state.user.user.id,
+	email: state.user.user.email,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	changeUserEmail: (email) => Action.User.changeUserEmail(email)(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeEmail);

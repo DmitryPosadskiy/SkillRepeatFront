@@ -1,145 +1,320 @@
 import React, {Component} from 'react';
 
-import { Button, Form, Icon, Message } from 'semantic-ui-react'
+import {Button, Form, Grid, Header, Modal, Icon} from 'semantic-ui-react'
+import {CreateUserValidator, SkillValidator} from "../common/Validator";
 
 class CreateUser extends Component {
 	state = {
-		login: '',
 		email: '',
 		password: '',
-		isAgreeTerm: false,
+		name: '',
+		period: '',
+		time: '',
+		isAgreeTerms: false,
 		isAgreeEmails: false,
 
-		errorLogin: false,
-		errorEmail: false,
-		errorPassword: false,
-		errorTermCheckbox: false,
-		errorForm: false,
-	};
+		isChangeNotificationSetting: false,
 
-	onChangeLogin = (event) => {
-		this.setState({login: event.target.value});
+		isValidationError: false,
+		isEmailValidationError: true,
+		isPasswordValidationError: true,
+		isNameValidationError: false,
+		isAgreeEmailValidationError: false,
+		isAgreeTermsValidationError: true,
+		isPeriodError: true,
+		isTimeError: true,
+
+		isModalOpen: false,
 	};
 
 	onChangeEmail = (event) => {
-		this.setState({email: event.target.value});
+		const {isEmailValidationError} = this.state;
+		const email = event.target.value;
+
+		if (!CreateUserValidator.authEmailValidate(email)) {
+			!isEmailValidationError && this.setState({isEmailValidationError: true})
+		} else {
+			isEmailValidationError && this.setState({isEmailValidationError: false})
+		}
+
+		this.setState({email});
 	};
 
 	onChangePassword = (event) => {
-		this.setState({password: event.target.value});
+		const {isPasswordValidationError} = this.state;
+		const password = event.target.value;
+
+		if (!CreateUserValidator.authPasswordValidate(password)) {
+			!isPasswordValidationError && this.setState({isPasswordValidationError: true})
+		} else {
+			isPasswordValidationError && this.setState({isPasswordValidationError: false})
+		}
+
+		this.setState({password});
 	};
 
-	onReg = () => {
+	onChangeName = (event) => {
+		const {isNameValidationError} = this.state;
+		const name = event.target.value;
+
+		if (!CreateUserValidator.createUserNameValidate(name)) {
+			!isNameValidationError && this.setState({isNameValidationError: true})
+		} else {
+			isNameValidationError && this.setState({isNameValidationError: false})
+		}
+
+		this.setState({name});
+	};
+
+	onChangeNotificationSetting = (e, {checked}) => {
+		this.setState({isChangeNotificationSetting: checked});
+	};
+
+	onChangeIsAgreeEmails = (e, value) => {
+		const {isAgreeEmailValidationError} = this.state;
+		const isAgreeEmails = value.checked;
+
+		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeEmails)) {
+			!isAgreeEmailValidationError && this.setState({isAgreeEmailValidationError: true})
+		} else {
+			isAgreeEmailValidationError && this.setState({isAgreeEmailValidationError: false})
+		}
+
+		this.setState({isAgreeEmails});
+	};
+
+	onChangeFormPeriod = (event) => {
+		const { isPeriodError } = this.state;
+		const period = event.target.value;
+
+		if (SkillValidator.skillPeriodValidate(period)) {
+			isPeriodError && this.setState({isPeriodError: false});
+		} else {
+			!isPeriodError && this.setState({isPeriodError: true});
+		}
+
+		this.setState({period});
+	};
+
+	onChangeFormTime = (e, {value}) => {
+		const { isTimeError } = this.state;
+
+		if (SkillValidator.skillTimeValidate(value)) {
+			isTimeError && this.setState({isTimeError: false});
+		} else {
+			!isTimeError && this.setState({isTimeError: true});
+		}
+
+		this.setState({time: value});
+	};
+
+	onChangeIsAgreeTerms = (e, value) => {
+		const {isAgreeTermsValidationError} = this.state;
+		const isAgreeTerms = value.checked;
+
+		if (!CreateUserValidator.createUserAgreeTermsValidate(isAgreeTerms)) {
+			!isAgreeTermsValidationError && this.setState({isAgreeTermsValidationError: true})
+		} else {
+			isAgreeTermsValidationError && this.setState({isAgreeTermsValidationError: false})
+		}
+
+		this.setState({isAgreeTerms});
+	};
+
+	cancel = () => {
+		this.props.openUserLoginPage();
+	};
+
+	onRegistration = () => {
 		const {
 			registration,
 		} = this.props;
 
 		const {
-			login,
 			email,
 			password,
+			name,
+			isAgreeEmails,
+			isAgreeTerms,
+
+			isValidationError,
 		} = this.state;
 
-		if (!this.checkLogin() || !this.checkEmail() || !this.checkPassword() || !this.checkIsTermAgree()) {
-			this.setState({errorForm: true});
+		const user = {
+			email,
+			password,
+			name,
+			isAgreeEmails,
+			isAgreeTerms,
+		};
+
+		if (!CreateUserValidator.createUserValidate(user)) {
+			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
 
-		registration({login, email, password})
+		isValidationError && this.setState({isValidationError: false});
+
+		if (!isAgreeEmails) {
+			this.setState({isModalOpen: true});
+			return;
+		}
+
+		registration(user);
 	};
 
-	cancel = () => {
-		this.props.goToUserLoginPage();
-	};
+	onModalClick = (isAgreeEmails) => {
+		const {
+			registration,
+		} = this.props;
 
-	changeAgreeTerms = (e, value) => {
-		this.setState({isAgreeTerm: value.checked});
-	};
+		const {
+			email,
+			password,
+			name,
+		} = this.state;
 
-	changeAgreeEmails = (e, value) => {
-		this.setState({isAgreeEmails: value.checked});
-	};
+		const user = {
+			email,
+			password,
+			name,
+			isAgreeEmails,
+		};
 
-	checkLogin = () => this.checkField('login', this.state.login.trim().length >= 3);
-	checkEmail = () => this.checkField('email', this.state.email.includes('@'));
-	checkPassword = () => this.checkField('password', !!this.state.password);
-	checkIsTermAgree = () => this.checkField('termCheckbox', this.state.isAgreeTerm);
-
-	checkField = (field, isCorrect) => {
-		const errorField = 'error' + field.charAt(0).toUpperCase() + field.substr(1);
-		this.setState({[errorField]: !isCorrect});
-		return isCorrect;
+		registration(user);
 	};
 
 	render() {
 		const {
-			isAgreeTerm = false,
-			isAgreeEmails = false,
+			email,
+			password,
+			name,
+			period,
+			time,
+			isAgreeTerms,
+			isAgreeEmails,
 
-			errorLogin = false,
-			errorEmail = false,
-			errorPassword = false,
-			errorTermCheckbox = false,
-			errorForm = false,
+			isChangeNotificationSetting,
+
+			isValidationError,
+			isNameValidationError,
+			isEmailValidationError,
+			isPasswordValidationError,
+			isAgreeEmailValidationError,
+			isAgreeTermsValidationError,
+			isPeriodError,
+			isTimeError,
+
+			isModalOpen,
 		} = this.state;
 
 		return (
-			<Form error={errorForm}>
-				<Form.Field>
-					<Form.Input error={errorLogin} iconPosition='left' placeholder='Name' onChange={this.onChangeLogin} >
-						<Icon name='user' />
-						<input />
-					</Form.Input>
-					{
-						errorLogin && (
-						<Message
-							error
-							header='Login is incorrect'
-							content='You can use three chars and more.'
-						/>
-					)}
-				</Form.Field>
-				<Form.Field>
-					<Form.Input error={errorEmail} iconPosition='left' placeholder='Email' onChange={this.onChangeEmail} >
-						<Icon name='at' />
-						<input />
-					</Form.Input>
-					{
-						errorEmail && (
-							<Message
-								error
-								header='Email is incorrect'
-								content='You can use "@" in your e-mail.'
+			<Grid verticalAlign='middle' style={{height: '100vh'}} columns={1} centered>
+				<Grid.Row>
+					<Grid.Column>
+						<Form>
+							<Header as='h2' color='teal' textAlign='center'>
+								Sign up
+							</Header>
+							<Form.Input
+								value={email}
+								onChange={this.onChangeEmail}
+								error={isValidationError && isEmailValidationError ? 'You can use "@" in your e-mail' : undefined}
+								icon='at'
+								iconPosition='left'
+								type='email'
+								placeholder='Email'
 							/>
-						)}
-				</Form.Field>
-				<Form.Field>
-					<Form.Input error={errorPassword} iconPosition='left' type='password' placeholder='Password' onChange={this.onChangePassword} >
-						<Icon name='spy' />
-						<input />
-					</Form.Input>
-				</Form.Field>
-				{
-					errorPassword && (
-						<Message
-							error
-							header='Password is incorrect'
-							content='You can use non-empty password.'
-						/>
-					)}
-				<Form.Field>
-					<Form.Checkbox onClick={this.changeAgreeEmails} checked={isAgreeEmails} label='I agree to get emails' />
-				</Form.Field>
-				<Form.Field>
-					<Form.Checkbox required onClick={this.changeAgreeTerms} checked={isAgreeTerm} label='I agree to the Terms and Conditions' error={errorTermCheckbox} />
-				</Form.Field>
-				<Button.Group fluid>
-					<Button onClick={this.cancel}>Cancel</Button>
-					<Button.Or />
-					<Button onClick={this.onReg} positive>Sign up</Button>
-				</Button.Group>
-			</Form>
-		)
+							<Form.Input
+								value={password}
+								onChange={this.onChangePassword}
+								error={isValidationError && isPasswordValidationError ? 'You can use non-empty password' : undefined}
+								icon='spy'
+								iconPosition='left'
+								type='password'
+								placeholder='Password'
+							/>
+							<Form.Input
+								value={name}
+								onChange={this.onChangeName}
+								error={isValidationError && isNameValidationError ? 'Please, fill this field' : undefined}
+								icon='user'
+								iconPosition='left'
+								placeholder='Name'
+							/>
+							<Form.Checkbox
+								checked={isChangeNotificationSetting}
+								onChange={this.onChangeNotificationSetting}
+								toggle
+								label='Change default notification'
+							/>
+							{
+								isChangeNotificationSetting && (
+									<Form.Group widths='equal'>
+										<Form.Input
+											value={period}
+											onChange={this.onChangeFormPeriod}
+											fluid
+											error={isValidationError && isPeriodError ? 'Please, fill this field' : undefined}
+											icon='bell'
+											iconPosition='left'
+											type='number'
+											placeholder='Days between repeats'/>
+										<Form.Input
+											value={time}
+											onChange={this.onChangeFormTime}
+											fluid
+											error={isValidationError && isTimeError ? 'Please, fill this field' : undefined}
+											icon='time'
+											iconPosition='left'
+											type='time'
+										/>
+									</Form.Group>
+								)
+							}
+							<Form.Checkbox
+								checked={isAgreeEmails}
+								onClick={this.onChangeIsAgreeEmails}
+								error={isValidationError && isAgreeEmailValidationError ? 'We cannot service you without it' : undefined}
+								label='I agree to get emails'
+							/>
+							<Form.Checkbox
+								checked={isAgreeTerms}
+								onClick={this.onChangeIsAgreeTerms}
+								error={isValidationError && isAgreeTermsValidationError ? 'We cannot service you without it' : undefined}
+								required
+								label='I agree to the Terms and Conditions'
+							/>
+							<Button.Group fluid>
+								<Button onClick={this.cancel}>Cancel</Button>
+								<Button.Or/>
+								<Button onClick={this.onRegistration} positive>Sign up</Button>
+							</Button.Group>
+						</Form>
+					</Grid.Column>
+				</Grid.Row>
+				<Modal
+					open={isModalOpen}
+					onClose={() => this.onModalClick(false)}
+					basic
+					size='small'
+				>
+					<Header icon='mail' content='Email notifications'/>
+					<Modal.Content>
+						<p>Unfortunately, you did not give your consent to receive emails with reminders to repeat the skills. You
+							can check the status of the skill only in the application. Perhaps we can send you email alerts?</p>
+					</Modal.Content>
+					<Modal.Actions>
+						<Button basic color='red' onClick={() => this.onModalClick(false)} inverted>
+							I'll check in App
+						</Button>
+						<Button color='green' onClick={() => this.onModalClick(true)} inverted>
+							<Icon name='checkmark'/> Yes, send me
+						</Button>
+					</Modal.Actions>
+				</Modal>
+			</Grid>
+		);
 	}
 }
 

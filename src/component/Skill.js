@@ -62,8 +62,7 @@ class Skill extends Component {
 							</Button>
 						</Modal.Actions>
 					</Modal>
-					<Button onClick={() => repeatSkill(id)} basic color='green' animated='vertical'>
-						<Button.Content hidden>Repeat</Button.Content>
+					<Button onClick={() => repeatSkill(id)} basic color='green'>
 						<Button.Content visible>
 							<Icon name='play' />
 						</Button.Content>

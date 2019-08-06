@@ -32,8 +32,17 @@ const page = (state = defaultState, action) => {
         case ActionType.Page.USER_CHANGE_PASSWORD_PAGE: return {
             activePage: Page.USER_CHANGE_PASSWORD,
         };
+        case ActionType.Page.USER_CHANGE_EMAIL_PAGE: return {
+            activePage: Page.USER_CHANGE_EMAIL,
+        };
+        case ActionType.Page.USER_CHANGE_NOTIFICATION_PAGE: return {
+            activePage: Page.USER_CHANGE_NOTIFICATION,
+        };
         case ActionType.Page.USER_SETTINGS_PAGE: return {
             activePage: Page.USER_SETTINGS,
+        };
+        case ActionType.Page.USER_ACCOUNT_PAGE: return {
+            activePage: Page.USER_ACCOUNT,
         };
         case ActionType.Common.RESET_STATE: return {
             ...action.state.page,

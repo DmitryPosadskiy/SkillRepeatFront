@@ -54,7 +54,7 @@ class ChangePassword extends Component {
 	};
 
 	cancel = () => {
-		this.props.goToUserSettingsPage();
+		this.props.openUserSettingsPage();
 	};
 
 	onClickChangePassword = () => {
