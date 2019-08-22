@@ -73,3 +73,27 @@ export const ChangeNotificationValidator = {
 	changeNotificationValidate,
 	periodValidate,
 };
+
+const skillEditValidate = (skill) => skillNameValidate(skill.name);
+	//&& skillPeriodValidate(skill.period)
+	//&& skillTimeValidate(skill.time);
+
+export const SkillEditValidator = {
+	skillEditValidate,
+	skillNameValidate,
+	skillPeriodValidate,
+	skillTimeValidate,
+};
+
+const helloPagePeriodValidate = (period) => !period || period > 0;
+const helloPageTimeValidate = (time) => !time || time.trim().length > 0;
+const helloPageValidate = (user) => authEmailValidate(user.email)
+	&& authPasswordValidate(user.password);
+
+export const HelloPageValidator = {
+	helloPageValidate,
+	helloPagePeriodValidate,
+	helloPageTimeValidate,
+	authEmailValidate,
+	authPasswordValidate,
+};

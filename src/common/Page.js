@@ -1,4 +1,5 @@
 const Page = {
+	HELLO: "HELLO",
 	MAIN: "MAIN",
 	ADD: "ADD",
 	USER_CREATE: 'USER_CREATE',

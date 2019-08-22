@@ -22,8 +22,9 @@ class Footer extends Component {
 
 		const userPage = isAuth ? Page.USER_SETTINGS : Page.USER_LOGIN;
 
+		if (!isAuth) return '';
 		return (
-			<Container>
+			<Container style={{paddingTop: 80}}>
 				<Menu fixed='bottom' compact icon='labeled' widths={3}>
 					<Menu.Item
 						name={Page.MAIN}

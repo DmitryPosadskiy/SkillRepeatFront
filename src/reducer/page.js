@@ -2,7 +2,7 @@ import ActionType from '../common/ActionType';
 import Page from '../common/Page';
 
 const defaultState = {
-    activePage: Page.MAIN,
+    activePage: Page.HELLO,
 };
 
 const page = (state = defaultState, action) => {
@@ -10,6 +10,9 @@ const page = (state = defaultState, action) => {
         case ActionType.Page.CHANGE_ACTIVE_PAGE: return {
             ...state,
             activePage: action.page,
+        };
+        case ActionType.Page.HELLO_PAGE: return {
+            activePage: Page.HELLO,
         };
         case ActionType.Page.MAIN_PAGE: return {
             activePage: Page.MAIN,

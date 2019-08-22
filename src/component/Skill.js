@@ -1,21 +1,11 @@
 import React, {Component} from 'react';
 
-import {Header, Icon, List, Button, Label, Modal} from 'semantic-ui-react';
-import { getDaysAgoFromDate } from '../common/Utils';
+import {Header, List, Label} from 'semantic-ui-react';
+import {getDaysAgoFromDate} from '../common/Utils';
+import Action from "../action";
+import {connect} from "react-redux";
 
 class Skill extends Component {
-	state = {
-		isModalOpen: false,
-	};
-
-	openModal = () => {
-		this.setState({isModalOpen: true})
-	};
-
-	closeModal = () => {
-		this.setState({isModalOpen: false})
-	};
-
 	deleteSkill = (id) => {
 		this.props.deleteSkill(id);
 		this.closeModal();
@@ -41,7 +31,6 @@ class Skill extends Component {
 				lastRepeat,
 				level,
 			} = {},
-			repeatSkill,
 		} = this.props;
 
 		let repeatAgoView = getDaysAgoFromDate(new Date(lastRepeat));

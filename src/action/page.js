@@ -5,6 +5,10 @@ const changeActivePage = (page) => ({
     page,
 });
 
+const openHelloPage = () => ({
+    type: ActionType.Page.HELLO_PAGE,
+});
+
 const openMainPage = () => ({
     type: ActionType.Page.MAIN_PAGE,
 });
@@ -55,6 +59,7 @@ const openSkillEditPage = () => ({
 
 const Page = {
     changeActivePage,
+    openHelloPage,
     openMainPage,
     openAddPage,
     openUserCreatePage,

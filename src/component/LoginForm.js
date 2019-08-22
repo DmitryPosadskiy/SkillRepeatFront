@@ -54,6 +54,10 @@ class LoginForm extends Component {
 		this.props.auth(email, password);
 	};
 
+	cancel = () => {
+		this.props.back();
+	};
+
 	render() {
 		const {
 			email,
@@ -90,10 +94,14 @@ class LoginForm extends Component {
 								placeholder='Password'
 								type='password'
 							/>
-							<Button onClick={this.onClickLogin} positive fluid>Login</Button>
+							<Button.Group fluid>
+								<Button onClick={this.cancel}>Back</Button>
+								<Button.Or/>
+								<Button onClick={this.onClickLogin} positive>Login</Button>
+							</Button.Group>
 							<Button.Group widths='2'>
-								<Button fluid basic onClick={this.props.setUserCreatePage}>Sign up</Button>
-								<Button fluid basic onClick={this.props.setUserForgotPasswordPage}>Forgot password?</Button>
+								<Button fluid basic onClick={this.props.openUserCreatePage}>Sign up</Button>
+								<Button fluid basic onClick={this.props.openUserForgotPasswordPage}>Forgot password?</Button>
 							</Button.Group>
 						</Form>
 					</Grid.Column>

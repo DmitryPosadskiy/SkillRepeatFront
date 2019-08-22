@@ -122,7 +122,7 @@ class CreateUser extends Component {
 	};
 
 	cancel = () => {
-		this.props.openUserLoginPage();
+		this.props.back();
 	};
 
 	onRegistration = () => {

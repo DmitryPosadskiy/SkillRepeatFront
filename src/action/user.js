@@ -154,6 +154,19 @@ const registration = (user) => dispatch => {
 	dispatch(Action.Page.openMainPage());
 };
 
+const registrationWithSkills = (user) => dispatch => {
+	const userForSave = {
+		...user,
+		password: hmacSha256(user.password, "$!@#$%$#@").toString(),
+	};
+
+	axios.post(URL.USER.REG_WITH_SKILLS, userForSave, RequestConfig)
+		.then(result => dispatch({
+			type: ActionType.User.REG_SUCCESS,
+			user: result.data,
+		}));
+};
+
 const forgotPassword = (email) => dispatch => {
 	const auth = {
 		email,
@@ -167,7 +180,7 @@ const forgotPassword = (email) => dispatch => {
 
 const logOut = () => (dispatch) => {
 	dispatch(clearUser());
-	dispatch(Action.Page.openMainPage());
+	dispatch(Action.Page.openHelloPage());
 };
 
 const clearUser = () => {
@@ -198,6 +211,7 @@ const User = {
 	repeatSkill,
 	auth,
 	registration,
+	registrationWithSkills,
 	forgotPassword,
 	logOut,
 	choseSkillId,

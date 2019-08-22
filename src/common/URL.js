@@ -8,6 +8,7 @@ const USER = {
 	USER_ALL: USER_MAIN + 'all/',
 	AUTH: USER_MAIN + 'auth/',
 	REG: USER_MAIN + 'reg/',
+	REG_WITH_SKILLS: USER_MAIN + 'regWithSkills/',
 	FORGOT_PASSWORD: USER_MAIN + 'forgotPass/',
 	SAVE: USER_MAIN,
 	DELETE: (userId) => `${USER_MAIN}delete/${userId}`,
