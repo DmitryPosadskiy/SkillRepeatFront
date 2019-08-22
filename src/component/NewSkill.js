@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 
-import { Form, List } from 'semantic-ui-react'
-import { SkillValidator } from '../common/Validator';
+import {Form, List} from 'semantic-ui-react'
+import {SkillValidator} from '../common/Validator';
 
 const repeatPeriods = [
-	{ key: 'today', text: 'Today', value: '0' },
-	{ key: 'yesterday', text: 'Yesterday', value: '1' },
-	{ key: 'week', text: 'On this week', value: '2' },
-	{ key: 'twoweek', text: 'Last two week', value: '3' },
-	{ key: 'month', text: 'Last month', value: '4' },
+	{key: 'today', text: 'Today', value: '0'},
+	{key: 'yesterday', text: 'Yesterday', value: '1'},
+	{key: 'week', text: 'On this week', value: '2'},
+	{key: 'twoweek', text: 'Last two week', value: '3'},
+	{key: 'month', text: 'Last month', value: '4'},
 ];
 
 class NewSkill extends Component {
@@ -34,7 +34,7 @@ class NewSkill extends Component {
 	};
 
 	onChangeFormPeriod = (event) => {
-		const { isPeriodError } = this.state;
+		const {isPeriodError} = this.state;
 		const period = event.target.value;
 
 		if (SkillValidator.skillPeriodValidate(period)) {
@@ -47,7 +47,7 @@ class NewSkill extends Component {
 	};
 
 	onChangeFormTime = (e, {value}) => {
-		const { isTimeError } = this.state;
+		const {isTimeError} = this.state;
 
 		if (SkillValidator.skillTimeValidate(value)) {
 			isTimeError && this.setState({isTimeError: false});
@@ -63,7 +63,7 @@ class NewSkill extends Component {
 	};
 
 	onChangeTerm = (e, {value}) => {
-		const { isRepeatInLastMonthError } = this.state;
+		const {isRepeatInLastMonthError} = this.state;
 		if (SkillValidator.skillRepeatInLastMonthValidate(value)) {
 			isRepeatInLastMonthError && this.setState({isRepeatInLastMonthError: false});
 		} else {
@@ -99,62 +99,62 @@ class NewSkill extends Component {
 		return (
 			<List.Item>
 				<Form>
-				<Form.Input
-					required
-					error={isValidationError && isNameError ? 'Please, fill this field' : undefined}
-					value={name}
-					onChange={this.onChangeFormName}
-					fluid
-					label='Skill name'
-					placeholder='Java, Python, ...'
-				/>
-				<Form.Checkbox
-					checked={isRepeatInLastMonth}
-					onChange={this.onChangeFormCheckbox}
-					toggle
-					label='Did you repeat it in last month?'
-				/>
-				{
-					isRepeatInLastMonth && (
-						<Form.Select
-							fluid
-							label='How long ago?'
-							error={isValidationError && isRepeatInLastMonthError ? 'Please, fill this field' : undefined}
-							options={repeatPeriods}
-							onChange={this.onChangeTerm}
-							placeholder='Today'
-						/>
-					)
-				}
-				<Form.Checkbox
-					checked={isChangeNotificationSetting}
-					onChange={this.onChangeNotificationSetting}
-					toggle
-					label='Change default notification?'
-				/>
-				{
-					isChangeNotificationSetting && (
-						<Form.Group widths='equal'>
-							<Form.Input
-								value={period}
-								onChange={this.onChangeFormPeriod}
+					<Form.Input
+						required
+						error={isValidationError && isNameError ? 'Please, fill this field' : undefined}
+						value={name}
+						onChange={this.onChangeFormName}
+						fluid
+						label='Skill name'
+						placeholder='Java, Python, ...'
+					/>
+					<Form.Checkbox
+						checked={isRepeatInLastMonth}
+						onChange={this.onChangeFormCheckbox}
+						toggle
+						label='Did you repeat it in last month?'
+					/>
+					{
+						isRepeatInLastMonth && (
+							<Form.Select
 								fluid
-								error={isValidationError && isPeriodError ? 'Please, fill this field' : undefined}
-								label='Days between repeats'
-								type='number'
-								placeholder='3' />
-							<Form.Input
-								value={time}
-								fluid
-								label='Repeat time'
-								error={isValidationError && isTimeError ? 'Please, fill this field' : undefined}
-								onChange={this.onChangeFormTime}
-								type='time'
-								placeholder='20:00'
+								label='How long ago?'
+								error={isValidationError && isRepeatInLastMonthError ? 'Please, fill this field' : undefined}
+								options={repeatPeriods}
+								onChange={this.onChangeTerm}
+								placeholder='Today'
 							/>
-						</Form.Group>
-					)
-				}
+						)
+					}
+					<Form.Checkbox
+						checked={isChangeNotificationSetting}
+						onChange={this.onChangeNotificationSetting}
+						toggle
+						label='Change default notification?'
+					/>
+					{
+						isChangeNotificationSetting && (
+							<Form.Group widths='equal'>
+								<Form.Input
+									value={period}
+									onChange={this.onChangeFormPeriod}
+									fluid
+									error={isValidationError && isPeriodError ? 'Please, fill this field' : undefined}
+									label='Days between repeats'
+									type='number'
+									placeholder='3'/>
+								<Form.Input
+									value={time}
+									fluid
+									label='Repeat time'
+									error={isValidationError && isTimeError ? 'Please, fill this field' : undefined}
+									onChange={this.onChangeFormTime}
+									type='time'
+									placeholder='20:00'
+								/>
+							</Form.Group>
+						)
+					}
 				</Form>
 			</List.Item>
 		)

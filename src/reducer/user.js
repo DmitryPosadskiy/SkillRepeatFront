@@ -1,10 +1,13 @@
 import ActionType from '../common/ActionType';
 
+const defaultUser = {
+	skills: [],
+};
+
 const defaultState = {
 	isAuth: false,
-	user: {
-		skills: [],
-	},
+	user: defaultUser,
+	choseSkillId: undefined,
 };
 
 const user = (state = defaultState, action) => {
@@ -63,7 +66,7 @@ const user = (state = defaultState, action) => {
 		};
 		case ActionType.User.CLEAR: return {
 			...state,
-			user: undefined,
+			user: defaultUser,
 			isAuth: false,
 		};
 		case ActionType.Common.RESET_STATE: return {

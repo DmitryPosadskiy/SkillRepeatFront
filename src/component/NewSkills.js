@@ -64,7 +64,7 @@ class NewSkills extends Component {
 		}
 
 		this.props.saveSkills(this.props.user.id, this.state.newSkills);
-		this.props.setMainPage();
+		this.props.openMainPage();
 	};
 
 	render() {
@@ -106,7 +106,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
 	saveSkills: (user, skills) => Action.User.saveSkills(user, skills)(dispatch),
-	setMainPage: () => dispatch(Action.Page.setMainPage()),
+	openMainPage: () => dispatch(Action.Page.openMainPage()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSkills);

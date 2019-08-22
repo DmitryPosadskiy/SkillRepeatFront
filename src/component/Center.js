@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from "react-redux";
 
 import Page from '../common/Page';
@@ -31,7 +31,6 @@ class Center extends Component {
 			openHelloPage,
 			openMainPage,
 			openUserLoginPage,
-			openUserCreatePage,
 			openUserSettingsPage,
 			openUserForgotPasswordPage,
 			openUserChangePasswordPage,

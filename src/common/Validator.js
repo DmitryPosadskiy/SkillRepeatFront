@@ -1,8 +1,8 @@
 const skillsValidate = (skills) => skills.every(skill => skillValidate(skill));
 
-const skillValidate = (skill) => skillNameValidate(skill.name)
-	&& skillRepeatInLastMonthValidate(skill.termRepeat)
-	&& skillPeriodValidate(skill.period);
+const skillValidate = (skill) => skillNameValidate(skill.name);
+	//&& skillRepeatInLastMonthValidate(skill.termRepeat)
+	//&& skillPeriodValidate(skill.period);
 
 const skillNameValidate = (name) => name && name.trim().length > 0;
 const skillRepeatInLastMonthValidate = (period) => period;

@@ -3,7 +3,7 @@ import ActionType from '../common/ActionType';
 import axios from 'axios';
 import hmacSha256 from 'crypto-js/hmac-sha256';
 import Action from '../action';
-import { RequestConfig } from '../common/settings';
+import {RequestConfig} from '../common/settings';
 
 const getUsers = () => (dispatch, getState) => {
 	axios.get(URL.USER.USER_ALL, RequestConfig)
@@ -133,8 +133,7 @@ const auth = (email, password) => dispatch => {
 				type: ActionType.User.USER_BY_NAME_SUCCESS,
 				user: result.data,
 			})
-		})
-		.catch(exception => console.log(exception));
+		});
 
 	dispatch(Action.Page.openMainPage());
 };
