@@ -9,6 +9,14 @@ const getDaysAgoFromDate = (date) => {
 	}
 };
 
+const getDaysBetweenTwoDates = (date1, period) => {
+	const dateDifference = new Date() - date1;
+	const dayAgo = Math.floor(dateDifference / (1000 * 60 * 60 * 24));
+
+	return period - dayAgo;
+};
+
 export {
 	getDaysAgoFromDate,
+	getDaysBetweenTwoDates,
 }

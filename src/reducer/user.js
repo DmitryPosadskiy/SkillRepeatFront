@@ -57,6 +57,10 @@ const user = (state = defaultState, action) => {
 			user: action.user,
 			isAuth: true,
 		};
+		case ActionType.User.CHOSE_SKILL_ID: return {
+			...state,
+			choseSkillId: action.skillId,
+		};
 		case ActionType.User.CLEAR: return {
 			...state,
 			user: undefined,

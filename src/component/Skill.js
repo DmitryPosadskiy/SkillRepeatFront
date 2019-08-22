@@ -21,6 +21,17 @@ class Skill extends Component {
 		this.closeModal();
 	};
 
+	onClickOpenSkillPage = () => {
+		const {
+			skill,
+			openSkillPage,
+			choseSkillId,
+		} = this.props;
+
+		choseSkillId(skill.id);
+		openSkillPage(skill);
+	};
+
 	render() {
 		const {
 			skill: {
@@ -35,39 +46,7 @@ class Skill extends Component {
 
 		let repeatAgoView = getDaysAgoFromDate(new Date(lastRepeat));
 		return (
-			<List.Item key={id}>
-				<List.Content floated='right'>
-					<Modal
-						trigger={(
-							<Button onClick={this.openModal} basic color='red'>
-								<Button.Content visible>
-									<Icon name='delete' />
-								</Button.Content>
-							</Button>
-						)}
-						basic
-						size='small'
-						open={this.state.isModalOpen}
-					>
-						<Header icon='delete' content={`Delete ${name}?`} />
-						<Modal.Content>
-							<p>{`If you delete ${name}, you will not restore it!`}</p>
-						</Modal.Content>
-						<Modal.Actions>
-							<Button onClick={this.closeModal} basic color='red' inverted>
-								<Icon name='remove' /> No
-							</Button>
-							<Button onClick={() => this.deleteSkill(id)} color='green' inverted>
-								<Icon name='checkmark' /> Yes
-							</Button>
-						</Modal.Actions>
-					</Modal>
-					<Button onClick={() => repeatSkill(id)} basic color='green'>
-						<Button.Content visible>
-							<Icon name='play' />
-						</Button.Content>
-					</Button>
-				</List.Content>
+			<List.Item key={id} onClick={this.onClickOpenSkillPage}>
 				<List.Content>
 					<Header as='h4'>
 						<Label circular size='huge' color={isNeedRepeat ? 'yellow' : 'green'}>{level}</Label>
@@ -81,4 +60,9 @@ class Skill extends Component {
 	}
 }
 
-export default Skill;
+const mapDispatchToProps = (dispatch) => ({
+	openSkillPage: () => dispatch(Action.Page.openSkillPage()),
+	choseSkillId: (skillId) => dispatch(Action.User.choseSkillId(skillId))
+});
+
+export default connect(null, mapDispatchToProps)(Skill);

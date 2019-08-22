@@ -15,6 +15,7 @@ const USER = {
 	CHANGE_EMAIL: (userId) => `${USER_MAIN}${userId}/changeEmail`,
 	CHANGE_NOTIFICATION: (userId) => `${USER_MAIN}${userId}/changeNotification`,
 	SAVE_SKILL: (userId) => `${USER_MAIN}${userId}/skill/add`,
+	EDIT_SKILL: (userId) => `${USER_MAIN}${userId}/skill/edit`,
 	DELETE_SKILL: (userId, skillId) => `${USER_MAIN}${userId}/skill/${skillId}`,
 	UPDATE: USER_MAIN,
 	REPEAT_SKILL: (userId, skillId) =>  USER_MAIN + `${userId}/skill/repeat/${skillId}`,

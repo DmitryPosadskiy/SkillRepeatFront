@@ -30,6 +30,8 @@ class Center extends Component {
 			openUserSettingsPage,
 			openUserForgotPasswordPage,
 			openUserChangePasswordPage,
+			openSkillPage,
+			openSkillEditPage,
 		} = this.props;
 
 		switch(activePage) {
@@ -43,6 +45,8 @@ class Center extends Component {
 			case Page.USER_CHANGE_NOTIFICATION: return <ChangeNotification openUserSettingsPage={openUserSettingsPage} />;
 			case Page.USER_SETTINGS: return <UserSetting openUserChangePasswordPage={openUserChangePasswordPage}/>;
 			case Page.USER_ACCOUNT: return <AccountInfo openUserSettingsPage={openUserSettingsPage} />;
+			case Page.SKILL: return <SkillPage cancel={openMainPage} openSkillEditPage={openSkillEditPage} />;
+			case Page.SKILL_EDIT: return <SkillEditPage cancel={openSkillPage} />;
 			default: return <EmptyPage/>;
 		}
 	}
@@ -63,6 +67,8 @@ const mapDispatchToProps = (dispatch) => ({
 	openUserSettingsPage: () => dispatch(Action.Page.openUserSettingsPage()),
 	openUserForgotPasswordPage: () => dispatch(Action.Page.openUserForgotPasswordPage()),
 	openUserChangePasswordPage: () => dispatch(Action.Page.openUserChangePasswordPage()),
+	openSkillPage: () => dispatch(Action.Page.openSkillPage()),
+	openSkillEditPage: () => dispatch(Action.Page.openSkillEditPage()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

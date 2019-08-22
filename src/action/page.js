@@ -45,6 +45,14 @@ const openUserAccountPage = () => ({
     type: ActionType.Page.USER_ACCOUNT_PAGE,
 });
 
+const openSkillPage = () => ({
+    type: ActionType.Page.SKILL_PAGE,
+});
+
+const openSkillEditPage = () => ({
+    type: ActionType.Page.SKILL_EDIT_PAGE,
+});
+
 const Page = {
     changeActivePage,
     openMainPage,
@@ -57,6 +65,8 @@ const Page = {
     openUserLoginPage,
     openUserSettingsPage,
     openUserAccountPage,
+    openSkillPage,
+    openSkillEditPage,
 };
 
 export default Page;

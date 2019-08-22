@@ -44,6 +44,12 @@ const page = (state = defaultState, action) => {
         case ActionType.Page.USER_ACCOUNT_PAGE: return {
             activePage: Page.USER_ACCOUNT,
         };
+        case ActionType.Page.SKILL_PAGE: return {
+            activePage: Page.SKILL,
+        };
+        case ActionType.Page.SKILL_EDIT_PAGE: return {
+            activePage: Page.SKILL_EDIT,
+        };
         case ActionType.Common.RESET_STATE: return {
             ...action.state.page,
         };

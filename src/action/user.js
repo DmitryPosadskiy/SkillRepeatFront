@@ -36,6 +36,16 @@ const saveSkills = (userId, skills) => dispatch => {
 		})
 };
 
+const editSkill = (userId, skill) => dispatch => {
+	axios.post(URL.USER.EDIT_SKILL(userId), skill, RequestConfig)
+		.then(result => {
+			dispatch({
+				type: ActionType.User.UPDATE_USER_SUCCESS,
+				user: result.data,
+			});
+		})
+};
+
 const deleteSkill = (userId, skillId) => dispatch => {
 	axios.delete(URL.USER.DELETE_SKILL(userId, skillId), RequestConfig)
 		.then(result => {
@@ -166,10 +176,18 @@ const clearUser = () => {
 	}
 };
 
+const choseSkillId = (skillId) => {
+	return {
+		type: ActionType.User.CHOSE_SKILL_ID,
+		skillId: skillId,
+	}
+};
+
 const User = {
 	getUsers,
 	getUserById,
 	saveSkills,
+	editSkill,
 	deleteSkill,
 	save,
 	updateUserAccount,
@@ -182,6 +200,7 @@ const User = {
 	registration,
 	forgotPassword,
 	logOut,
+	choseSkillId,
 };
 
 export default User;
