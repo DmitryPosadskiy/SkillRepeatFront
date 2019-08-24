@@ -11,7 +11,18 @@ const defaultState = {
 };
 
 const user = (state = defaultState, action) => {
-	switch (action.type) {
+	const {
+		type,
+		error,
+	} = action;
+
+	if (error) return {
+		...state,
+		error,
+		isLoading: false,
+	};
+
+	switch (type) {
 		case ActionType.User.USER_ALL_SUCCESS: return {
 			...state,
 			users: action.users,
@@ -71,6 +82,10 @@ const user = (state = defaultState, action) => {
 		};
 		case ActionType.Common.RESET_STATE: return {
 			...action.state.user,
+		};
+		case ActionType.User.CLEAR_ERROR: return {
+			...state,
+			error: undefined,
 		};
 		default: return state;
 	}

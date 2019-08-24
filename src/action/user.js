@@ -34,6 +34,12 @@ const saveSkills = (userId, skills) => dispatch => {
 				user: result.data,
 			});
 		})
+		.catch(error => {
+			dispatch({
+				type: ActionType.User.UPDATE_USER,
+				error,
+			});
+		});
 };
 
 const editSkill = (userId, skill) => dispatch => {
@@ -195,6 +201,12 @@ const choseSkillId = (skillId) => {
 	}
 };
 
+const readError = () => {
+	return {
+		type: ActionType.User.CLEAR_ERROR,
+	}
+};
+
 const User = {
 	getUsers,
 	getUserById,
@@ -214,6 +226,7 @@ const User = {
 	forgotPassword,
 	logOut,
 	choseSkillId,
+	readError,
 };
 
 export default User;
