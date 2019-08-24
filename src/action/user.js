@@ -6,6 +6,7 @@ import Action from '../action';
 import {RequestConfig} from '../common/settings';
 
 const saveSkills = (userId, skills) => dispatch => {
+	dispatch(startLoading());
 	axios.post(URL.USER.SAVE_SKILL(userId), skills, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -22,6 +23,7 @@ const saveSkills = (userId, skills) => dispatch => {
 };
 
 const editSkill = (userId, skill) => dispatch => {
+	dispatch(startLoading());
 	axios.post(URL.USER.EDIT_SKILL(userId), skill, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -38,6 +40,7 @@ const editSkill = (userId, skill) => dispatch => {
 };
 
 const deleteSkill = (userId, skillId) => dispatch => {
+	dispatch(startLoading());
 	axios.delete(URL.USER.DELETE_SKILL(userId, skillId), RequestConfig)
 		.then(result => dispatch({
 			type: ActionType.User.DELETE_SKILL,
@@ -50,6 +53,7 @@ const deleteSkill = (userId, skillId) => dispatch => {
 };
 
 const repeatSkill = (userId, skillId) => (dispatch) => {
+	dispatch(startLoading());
 	axios.get(URL.USER.REPEAT_SKILL(userId, skillId), RequestConfig)
 		.then(result => dispatch({
 			type: ActionType.User.REPEAT_SKILL,
@@ -64,6 +68,7 @@ const repeatSkill = (userId, skillId) => (dispatch) => {
 };
 
 const save = (user) => dispatch => {
+	dispatch(startLoading());
 	axios.put(URL.USER.SAVE, user, RequestConfig)
 		.then(result => dispatch({
 			type: ActionType.User.SAVE_USER,
@@ -76,6 +81,7 @@ const save = (user) => dispatch => {
 };
 
 const updateUser = (user) => dispatch => {
+	dispatch(startLoading());
 	axios.post(URL.USER.UPDATE, user, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -91,6 +97,7 @@ const updateUser = (user) => dispatch => {
 };
 
 const deleteUser = (userId) => dispatch => {
+	dispatch(startLoading());
 	axios.delete(URL.USER.DELETE(userId), RequestConfig)
 		.then(() => {
 			dispatch({
@@ -110,6 +117,7 @@ const changePassword = (userId, oldPassword, newPassword) => dispatch => {
 		password: hmacSha256(newPassword, "$!@#$%$#@").toString(),
 	};
 
+	dispatch(startLoading());
 	axios.post(URL.USER.CHANGE_PASSWORD(userId), auth, RequestConfig)
 		.then(() => {
 			dispatch({
@@ -124,6 +132,7 @@ const changePassword = (userId, oldPassword, newPassword) => dispatch => {
 };
 
 const changeUserEmail = (auth) => dispatch => {
+	dispatch(startLoading());
 	axios.post(URL.USER.CHANGE_EMAIL(auth.id), auth, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -139,6 +148,7 @@ const changeUserEmail = (auth) => dispatch => {
 };
 
 const changeUserNotification = (auth) => dispatch => {
+	dispatch(startLoading());
 	axios.post(URL.USER.CHANGE_NOTIFICATION(auth.id), auth, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -158,7 +168,7 @@ const auth = (email, password) => dispatch => {
 		email,
 		password: hmacSha256(password, "$!@#$%$#@").toString(),
 	};
-
+	dispatch(startLoading());
 	axios.post(URL.USER.AUTH, user, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -179,6 +189,7 @@ const registration = (user) => dispatch => {
 		password: hmacSha256(user.password, "$!@#$%$#@").toString(),
 	};
 
+	dispatch(startLoading());
 	axios.post(URL.USER.REG, userForSave, RequestConfig)
 		.then(result => {
 			dispatch({
@@ -199,6 +210,7 @@ const registrationWithSkills = (user) => dispatch => {
 		password: hmacSha256(user.password, "$!@#$%$#@").toString(),
 	};
 
+	dispatch(startLoading());
 	axios.post(URL.USER.REG_WITH_SKILLS, userForSave, RequestConfig)
 		.then(result => dispatch({
 			type: ActionType.User.REG,
@@ -215,6 +227,7 @@ const forgotPassword = (email) => dispatch => {
 		email,
 	};
 
+	dispatch(startLoading());
 	axios.post(URL.USER.FORGOT_PASSWORD, auth, RequestConfig)
 		.then(() => dispatch({
 			type: ActionType.User.FORGOT_PASSWORD,
