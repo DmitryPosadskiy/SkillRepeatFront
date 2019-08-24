@@ -69,7 +69,7 @@ class AccountInfo extends Component {
 			isAgreeEmails,
 		};
 
-		this.props.updateUserAccount(user);
+		this.props.updateUser(user);
 	};
 
 	onClickDeleteAccount = () => {
@@ -92,10 +92,10 @@ class AccountInfo extends Component {
 	onDeleteAccountModalCancel = () => {
 		const {
 			id,
-			deleteAccount,
+			deleteUser,
 		} = this.props;
 
-		deleteAccount(id);
+		deleteUser(id);
 
 		this.onDeleteAccountModalClose();
 	};
@@ -206,8 +206,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	updateUserAccount: (user) => Action.User.updateUserAccount(user)(dispatch),
-	deleteAccount: () => Action.User.deleteAccount()(dispatch),
+	updateUser: (user) => Action.User.updateUser(user)(dispatch),
+	deleteUser: () => Action.User.deleteUser()(dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);

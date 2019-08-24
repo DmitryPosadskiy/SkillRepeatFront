@@ -23,51 +23,51 @@ const user = (state = defaultState, action) => {
 	};
 
 	switch (type) {
-		case ActionType.User.USER_ALL_SUCCESS: return {
-			...state,
-			users: action.users,
-		};
-		case ActionType.User.USER_ALL_ERROR: return {
-			...state,
-			error: action.error,
-		};
-		case ActionType.User.USER_BY_ID_SUCCESS: return {
-			...state,
-			user: action.user,
-		};
-		case ActionType.User.SAVE_USER_SUCCESS: return {
+		case ActionType.User.SAVE_USER: return {
 			...state,
 			user: action.user,
 			isAuth: true,
 		};
-		case ActionType.User.UPDATE_USER_SUCCESS: return {
+		case ActionType.User.UPDATE_USER: return {
 			...state,
 			user: action.user,
 		};
-		case ActionType.User.CHANGE_EMAIL_SUCCESS: return {
+		case ActionType.User.CHANGE_EMAIL: return {
 			...state,
 			user: action.user,
 		};
-		case ActionType.User.CHANGE_NOTIFICATION_SUCCESS: return {
+		case ActionType.User.CHANGE_NOTIFICATION: return {
 			...state,
 			user: action.user,
 		};
-		case ActionType.User.DELETE_USER_SUCCESS: return {
+		case ActionType.User.DELETE_USER: return {
 			...state,
 			user: undefined,
 			isAuth: false,
 		};
-		case ActionType.User.REPEAT_SKILL_SUCCESS: return {
+		case ActionType.User.EDIT_SKILL: return {
 			...state,
 			user: action.user,
 		};
-		case ActionType.User.USER_BY_NAME_SUCCESS: return {
+		case ActionType.User.SAVE_SKILL: return {
+			...state,
+			user: action.user,
+		};
+		case ActionType.User.DELETE_SKILL: return {
+			...state,
+			user: action.user,
+		};
+		case ActionType.User.REPEAT_SKILL: return {
+			...state,
+			user: action.user,
+		};
+		case ActionType.User.USER_BY_NAME: return {
 			...state,
 			user: action.user,
 			isAuth: true,
 			isLoading: false,
 		};
-		case ActionType.User.REG_SUCCESS: return {
+		case ActionType.User.REG: return {
 			...state,
 			user: action.user,
 			isAuth: true,

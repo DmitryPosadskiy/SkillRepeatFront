@@ -64,7 +64,6 @@ class NewSkills extends Component {
 		}
 
 		this.props.saveSkills(this.props.user.id, this.state.newSkills);
-		this.props.openMainPage();
 	};
 
 	render() {

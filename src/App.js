@@ -13,7 +13,7 @@ class App extends Component {
     return (
 	    <ErrorBoundary>
 		    <Loader>
-					<Segment style={{marginTop: 0, border: 'none'}}>
+					<Segment style={{marginTop: 0, border: 'none', boxShadow: 'none'}}>
 		        <Center/>
 		        <Footer/>
 					</Segment>

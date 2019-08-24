@@ -5,32 +5,11 @@ import hmacSha256 from 'crypto-js/hmac-sha256';
 import Action from '../action';
 import {RequestConfig} from '../common/settings';
 
-const getUsers = () => (dispatch, getState) => {
-	axios.get(URL.USER.USER_ALL, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.USER_ALL_SUCCESS,
-			users: result.data,
-		}))
-		.catch(e => dispatch({
-			type: ActionType.User.USER_ALL_ERROR,
-			error: e,
-		}))
-};
-
-const getUserById = (id) => (dispatch) => {
-	axios.get(URL.USER.USER_BY_ID(id), RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.USER_BY_ID_SUCCESS,
-			user: result.data,
-		}))
-		.catch(result => console.log(result))
-};
-
 const saveSkills = (userId, skills) => dispatch => {
 	axios.post(URL.USER.SAVE_SKILL(userId), skills, RequestConfig)
 		.then(result => {
 			dispatch({
-				type: ActionType.User.UPDATE_USER_SUCCESS,
+				type: ActionType.User.UPDATE_USER,
 				user: result.data,
 			});
 		})
@@ -46,54 +25,83 @@ const editSkill = (userId, skill) => dispatch => {
 	axios.post(URL.USER.EDIT_SKILL(userId), skill, RequestConfig)
 		.then(result => {
 			dispatch({
-				type: ActionType.User.UPDATE_USER_SUCCESS,
+				type: ActionType.User.EDIT_SKILL,
 				user: result.data,
 			});
 		})
+		.catch(error => {
+			dispatch({
+				type: ActionType.User.EDIT_SKILL,
+				error,
+			});
+		});
 };
 
 const deleteSkill = (userId, skillId) => dispatch => {
 	axios.delete(URL.USER.DELETE_SKILL(userId, skillId), RequestConfig)
-		.then(result => {
-			dispatch({
-				type: ActionType.User.UPDATE_USER_SUCCESS,
-				user: result.data,
-			});
-		})
+		.then(result => dispatch({
+			type: ActionType.User.DELETE_SKILL,
+			user: result.data,
+		}))
+		.catch(error => dispatch({
+			type: ActionType.User.EDIT_SKILL,
+			error,
+		}));
 };
 
 const repeatSkill = (userId, skillId) => (dispatch) => {
 	axios.get(URL.USER.REPEAT_SKILL(userId, skillId), RequestConfig)
 		.then(result => dispatch({
-			type: ActionType.User.REPEAT_SKILL_SUCCESS,
+			type: ActionType.User.REPEAT_SKILL,
 			user: result.data,
 		}))
+		.catch(error => {
+			dispatch({
+				type: ActionType.User.REPEAT_SKILL,
+				error,
+			});
+		});
 };
 
 const save = (user) => dispatch => {
 	axios.put(URL.USER.SAVE, user, RequestConfig)
 		.then(result => dispatch({
-			type: ActionType.User.SAVE_USER_SUCCESS,
+			type: ActionType.User.SAVE_USER,
 			user: result.data,
+		}))
+		.catch(error => dispatch({
+			type: ActionType.User.SAVE_USER,
+			error,
 		}));
-	dispatch(Action.Page.openMainPage());
 };
 
-const updateUserAccount = (user) => dispatch => {
+const updateUser = (user) => dispatch => {
 	axios.post(URL.USER.UPDATE, user, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.UPDATE_USER_SUCCESS,
-			user: result.data,
+		.then(result => {
+			dispatch({
+				type: ActionType.User.UPDATE_USER,
+				user: result.data,
+			});
+			dispatch(Action.Page.openMainPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.UPDATE_USER,
+			error,
 		}));
-	dispatch(Action.Page.openMainPage());
 };
 
-const deleteAccount = (userId) => dispatch => {
+const deleteUser = (userId) => dispatch => {
 	axios.delete(URL.USER.DELETE(userId), RequestConfig)
-		.then(() => dispatch({
-			type: ActionType.User.DELETE_USER_SUCCESS,
+		.then(() => {
+			dispatch({
+				type: ActionType.User.DELETE_USER,
+			});
+			dispatch(Action.Page.openMainPage())
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.DELETE_SKILL,
+			error,
 		}));
-	dispatch(Action.Page.openMainPage());
 };
 
 const changePassword = (userId, oldPassword, newPassword) => dispatch => {
@@ -103,28 +111,46 @@ const changePassword = (userId, oldPassword, newPassword) => dispatch => {
 	};
 
 	axios.post(URL.USER.CHANGE_PASSWORD(userId), auth, RequestConfig)
-		.then(() => dispatch({
-			type: ActionType.User.CHANGE_PASSWORD_SUCCESS,
+		.then(() => {
+			dispatch({
+				type: ActionType.User.CHANGE_PASSWORD,
+			});
+			dispatch(Action.Page.openMainPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.CHANGE_PASSWORD,
+			error,
 		}));
-	dispatch(Action.Page.openMainPage());
 };
 
 const changeUserEmail = (auth) => dispatch => {
 	axios.post(URL.USER.CHANGE_EMAIL(auth.id), auth, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.CHANGE_EMAIL_SUCCESS,
-			user: result.data,
+		.then(result => {
+			dispatch({
+				type: ActionType.User.CHANGE_EMAIL,
+				user: result.data,
+			});
+			dispatch(Action.Page.openMainPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.CHANGE_EMAIL,
+			error,
 		}));
-	dispatch(Action.Page.openMainPage());
 };
 
 const changeUserNotification = (auth) => dispatch => {
 	axios.post(URL.USER.CHANGE_NOTIFICATION(auth.id), auth, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.CHANGE_NOTIFICATION_SUCCESS,
-			user: result.data,
+		.then(result => {
+			dispatch({
+				type: ActionType.User.CHANGE_NOTIFICATION,
+				user: result.data,
+			});
+			dispatch(Action.Page.openMainPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.CHANGE_NOTIFICATION,
+			error,
 		}));
-	dispatch(Action.Page.openMainPage());
 };
 
 const auth = (email, password) => dispatch => {
@@ -136,12 +162,15 @@ const auth = (email, password) => dispatch => {
 	axios.post(URL.USER.AUTH, user, RequestConfig)
 		.then(result => {
 			dispatch({
-				type: ActionType.User.USER_BY_NAME_SUCCESS,
+				type: ActionType.User.USER_BY_NAME,
 				user: result.data,
-			})
-		});
-
-	dispatch(Action.Page.openMainPage());
+			});
+			dispatch(Action.Page.openMainPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.USER_BY_NAME,
+			error,
+		}));
 };
 
 const registration = (user) => dispatch => {
@@ -151,12 +180,17 @@ const registration = (user) => dispatch => {
 	};
 
 	axios.post(URL.USER.REG, userForSave, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.REG_SUCCESS,
-			user: result.data,
+		.then(result => {
+			dispatch({
+				type: ActionType.User.REG,
+				user: result.data,
+			});
+			dispatch(Action.Page.openMainPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.REG,
+			error,
 		}));
-
-	dispatch(Action.Page.openMainPage());
 };
 
 const registrationWithSkills = (user) => dispatch => {
@@ -167,8 +201,12 @@ const registrationWithSkills = (user) => dispatch => {
 
 	axios.post(URL.USER.REG_WITH_SKILLS, userForSave, RequestConfig)
 		.then(result => dispatch({
-			type: ActionType.User.REG_SUCCESS,
+			type: ActionType.User.REG,
 			user: result.data,
+		}))
+		.catch(error => dispatch({
+			type: ActionType.User.REG,
+			error,
 		}));
 };
 
@@ -179,7 +217,11 @@ const forgotPassword = (email) => dispatch => {
 
 	axios.post(URL.USER.FORGOT_PASSWORD, auth, RequestConfig)
 		.then(() => dispatch({
-			type: ActionType.User.FORGOT_PASSWORD_SUCCESS,
+			type: ActionType.User.FORGOT_PASSWORD,
+		}))
+		.catch(error => dispatch({
+			type: ActionType.User.FORGOT_PASSWORD,
+			error,
 		}));
 };
 
@@ -214,16 +256,14 @@ const readError = () => {
 };
 
 const User = {
-	getUsers,
-	getUserById,
 	saveSkills,
 	editSkill,
 	deleteSkill,
 	save,
-	updateUserAccount,
+	updateUser,
 	changeUserEmail,
 	changeUserNotification,
-	deleteAccount,
+	deleteUser,
 	changePassword,
 	repeatSkill,
 	auth,
