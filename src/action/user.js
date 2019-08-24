@@ -194,6 +194,12 @@ const clearUser = () => {
 	}
 };
 
+const startLoading = () => {
+	return {
+		type: ActionType.User.START_LOADING,
+	}
+};
+
 const choseSkillId = (skillId) => {
 	return {
 		type: ActionType.User.CHOSE_SKILL_ID,
@@ -225,6 +231,7 @@ const User = {
 	registrationWithSkills,
 	forgotPassword,
 	logOut,
+	startLoading,
 	choseSkillId,
 	readError,
 };

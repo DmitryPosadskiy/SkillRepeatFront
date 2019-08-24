@@ -65,6 +65,7 @@ const user = (state = defaultState, action) => {
 			...state,
 			user: action.user,
 			isAuth: true,
+			isLoading: false,
 		};
 		case ActionType.User.REG_SUCCESS: return {
 			...state,
@@ -79,6 +80,10 @@ const user = (state = defaultState, action) => {
 			...state,
 			user: defaultUser,
 			isAuth: false,
+		};
+		case ActionType.User.START_LOADING: return {
+			...state,
+			isLoading: true,
 		};
 		case ActionType.Common.RESET_STATE: return {
 			...action.state.user,
