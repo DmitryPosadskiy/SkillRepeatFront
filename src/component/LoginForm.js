@@ -4,8 +4,8 @@ import { AuthValidator } from '../common/Validator';
 
 class LoginForm extends Component {
 	state = {
-		email: 'test@test.com',
-		password: '12345678',
+		email: '',
+		password: '',
 		isValidationError: false,
 		isEmailValidationError: true,
 		isPasswordValidationError: true,
