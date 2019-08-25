@@ -3,6 +3,7 @@ import { Button, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 
 import Action from '../action';
+import {version} from '../../package.json';
 
 class UserSetting extends Component {
 	render() {
@@ -26,6 +27,7 @@ class UserSetting extends Component {
 					<Button onClick={openUserChangePasswordPage}>Change password</Button>
 					<Button onClick={logOut}>Log out</Button>
 				</Button.Group>
+				<p style={{marginTop: '14px'}}>App version: {version}</p>
 			</div>
 		)
 	}
