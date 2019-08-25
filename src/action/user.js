@@ -13,6 +13,7 @@ const saveSkills = (userId, skills) => dispatch => {
 				type: ActionType.User.UPDATE_USER,
 				user: result.data,
 			});
+			dispatch(Action.Page.openMainPage())
 		})
 		.catch(error => {
 			dispatch({

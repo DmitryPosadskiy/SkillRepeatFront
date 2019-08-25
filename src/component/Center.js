@@ -31,6 +31,7 @@ class Center extends Component {
 			openHelloPage,
 			openMainPage,
 			openUserLoginPage,
+			openUserCreatePage,
 			openUserSettingsPage,
 			openUserForgotPasswordPage,
 			openUserChangePasswordPage,
@@ -43,7 +44,7 @@ class Center extends Component {
 			case Page.MAIN: return <User/>;
 			case Page.ADD: return <NewSkills/>;
 			case Page.USER_CREATE: return <CreateUser registration={registration} back={openHelloPage}/>;
-			case Page.USER_LOGIN: return <LoginForm auth={auth} back={openHelloPage} setUserForgotPasswordPage={openUserForgotPasswordPage}/>;
+			case Page.USER_LOGIN: return <LoginForm auth={auth} back={openHelloPage} openUserCreatePage={openUserCreatePage} openUserForgotPasswordPage={openUserForgotPasswordPage}/>;
 			case Page.USER_FORGOT_PASSWORD: return <ForgotPassword forgotPassword={forgotPassword} openUserLoginPage={openUserLoginPage} />;
 			case Page.USER_CHANGE_PASSWORD: return <ChangePassword userId={user.id} changePassword={changePassword} openUserSettingsPage={openUserSettingsPage} />;
 			case Page.USER_CHANGE_EMAIL: return <ChangeEmail openUserSettingsPage={openUserSettingsPage} />;

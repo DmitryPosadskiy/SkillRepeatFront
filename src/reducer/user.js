@@ -34,6 +34,10 @@ const user = (state = defaultState, action) => {
 			user: action.user,
 			isLoading: false,
 		};
+		case ActionType.User.CHANGE_PASSWORD: return {
+			...state,
+			isLoading: false,
+		};
 		case ActionType.User.CHANGE_EMAIL: return {
 			...state,
 			user: action.user,
@@ -94,6 +98,10 @@ const user = (state = defaultState, action) => {
 		case ActionType.User.START_LOADING: return {
 			...state,
 			isLoading: true,
+		};
+		case ActionType.User.FORGOT_PASSWORD: return {
+			...state,
+			isLoading: false,
 		};
 		case ActionType.Common.RESET_STATE: return {
 			...action.state.user,
