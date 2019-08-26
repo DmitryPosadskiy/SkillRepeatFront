@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Header, Image, List} from 'semantic-ui-react';
+import {Grid, Header, Image, List} from 'semantic-ui-react';
 import Skill from "./Skill";
 import {connect} from 'react-redux';
 
@@ -19,28 +19,44 @@ class User extends Component {
 				<Header as='h2' icon textAlign='center'>
 					<Image src={'/repeat.png'} size='tiny' verticalAlign='bottom'/> Skill Repeater
 				</Header>
-				<div>
-					<List>
-						{
-							needRepeatSkills && needRepeatSkills.map((skill) => (
-								<Skill
-									key={skill.id}
-									skill={skill}
-								/>
-							))
-						}
-					</List>
-					<List>
-						{
-							repeatedSkills && repeatedSkills.map((skill) => (
-								<Skill
-									key={skill.id}
-									skill={skill}
-								/>
-							))
-						}
-					</List>
-				</div>
+				{
+					skills.length > 0 ? (
+						<div>
+							<List>
+								{
+									needRepeatSkills && needRepeatSkills.map((skill) => (
+										<Skill
+											key={skill.id}
+											skill={skill}
+										/>
+									))
+								}
+							</List>
+							<List>
+								{
+									repeatedSkills && repeatedSkills.map((skill) => (
+										<Skill
+											key={skill.id}
+											skill={skill}
+										/>
+									))
+								}
+							</List>
+						</div>
+					) : (
+						<Grid verticalAlign='middle' style={{ height: '80vh'}} columns={1} centered>
+							<Grid.Row>
+								<Grid.Column>
+									<Header
+										as='h1'
+										content='You list is empty'
+										subheader='Add skill that you would like to train'
+									/>
+								</Grid.Column>
+							</Grid.Row>
+						</Grid>
+					)
+				}
 			</div>
 		);
 	}
