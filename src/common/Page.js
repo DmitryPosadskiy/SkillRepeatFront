@@ -13,6 +13,7 @@ const Page = {
 	USER_NOTIFICATION: 'USER_NOTIFICATION',
 	SKILL: 'SKILL',
 	SKILL_EDIT: 'SKILL_EDIT',
+	CONTACT_US: 'CONTACT_US',
 };
 
 export default Page;

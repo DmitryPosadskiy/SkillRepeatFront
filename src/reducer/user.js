@@ -103,6 +103,10 @@ const user = (state = defaultState, action) => {
 			...state,
 			isLoading: false,
 		};
+		case ActionType.User.SEND_MESSAGE: return {
+			...state,
+			isLoading: false,
+		};
 		case ActionType.Common.RESET_STATE: return {
 			...action.state.user,
 		};

@@ -97,3 +97,8 @@ export const HelloPageValidator = {
 	authEmailValidate,
 	authPasswordValidate,
 };
+
+const contactUsMessageValidate = (message) => message && message.trim().length > 0;
+export const ContactUsValidator = {
+	contactUsMessageValidate,
+};

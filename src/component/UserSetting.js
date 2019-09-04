@@ -13,6 +13,7 @@ class UserSetting extends Component {
 			openUserChangePasswordPage,
 			openUserChangeEmailPage,
 			openUserChangeNotificationPage,
+			openContactUsPage,
 		} = this.props;
 
 		return (
@@ -27,6 +28,13 @@ class UserSetting extends Component {
 					<Button onClick={openUserChangePasswordPage}>Change password</Button>
 					<Button onClick={logOut}>Log out</Button>
 				</Button.Group>
+
+				<Label style={{marginTop: '14px'}} color='teal'>
+					Support
+				</Label>
+				<Button.Group basic vertical fluid>
+					<Button onClick={openContactUsPage}>Contact</Button>
+				</Button.Group>
 				<p style={{marginTop: '14px'}}>App version: {version}</p>
 			</div>
 		)
@@ -39,6 +47,7 @@ const mapDispatchToProps = (dispatch) => ({
 	openUserChangeNotificationPage: () => dispatch(Action.Page.openUserChangeNotificationPage()),
 	openUserChangePasswordPage: () => dispatch(Action.Page.openUserChangePasswordPage()),
 	openUserChangeEmailPage: () => dispatch(Action.Page.openUserChangeEmailPage()),
+	openContactUsPage: () => dispatch(Action.Page.openContactUsPage()),
 });
 
 export default connect(null, mapDispatchToProps)(UserSetting);

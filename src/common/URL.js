@@ -19,6 +19,7 @@ const USER = {
 	DELETE_SKILL: (userId, skillId) => `${USER_MAIN}${userId}/skill/${skillId}`,
 	UPDATE: USER_MAIN,
 	REPEAT_SKILL: (userId, skillId) =>  USER_MAIN + `${userId}/skill/repeat/${skillId}`,
+	SEND_MESSAGE: (userId) =>  USER_MAIN + `${userId}/sendMessage`,
 };
 
 const URL = {

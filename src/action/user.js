@@ -246,6 +246,25 @@ const forgotPassword = (email) => dispatch => {
 		}));
 };
 
+const sendMessage = (userId, message) => dispatch => {
+	const messageForSend = {
+		message,
+	};
+
+	dispatch(startLoading());
+	axios.post(URL.USER.SEND_MESSAGE(userId), messageForSend, RequestConfig)
+		.then(() => {
+			dispatch({
+				type: ActionType.User.SEND_MESSAGE,
+			});
+			dispatch(Action.Page.openUserSettingsPage());
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.SEND_MESSAGE,
+			error,
+		}));
+};
+
 const logOut = () => (dispatch) => {
 	dispatch(clearUser());
 	dispatch(Action.Page.openHelloPage());
@@ -294,6 +313,7 @@ const User = {
 	logOut,
 	startLoading,
 	choseSkillId,
+	sendMessage,
 	readError,
 };
 

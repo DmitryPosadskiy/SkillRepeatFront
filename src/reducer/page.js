@@ -53,6 +53,9 @@ const page = (state = defaultState, action) => {
         case ActionType.Page.SKILL_EDIT_PAGE: return {
             activePage: Page.SKILL_EDIT,
         };
+        case ActionType.Page.CONTACT_US_PAGE: return {
+            activePage: Page.CONTACT_US,
+        };
         case ActionType.Common.RESET_STATE: return {
             ...action.state.page,
         };

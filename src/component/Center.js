@@ -17,6 +17,7 @@ import AccountInfo from "./AccountInfo";
 import SkillPage from "./SkillPage";
 import SkillEditPage from "./SkillEditPage";
 import HelloPage from './HelloPage';
+import ContactUs from "./ContactUs";
 
 class Center extends Component {
 
@@ -53,6 +54,7 @@ class Center extends Component {
 			case Page.USER_ACCOUNT: return <AccountInfo openUserSettingsPage={openUserSettingsPage} />;
 			case Page.SKILL: return <SkillPage cancel={openMainPage} openSkillEditPage={openSkillEditPage} />;
 			case Page.SKILL_EDIT: return <SkillEditPage cancel={openSkillPage} />;
+			case Page.CONTACT_US: return <ContactUs cancel={openUserSettingsPage} />;
 			default: return <EmptyPage/>;
 		}
 	}
