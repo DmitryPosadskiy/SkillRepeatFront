@@ -133,8 +133,13 @@ const changePassword = (userId, oldPassword, newPassword) => dispatch => {
 };
 
 const changeUserEmail = (auth) => dispatch => {
+	const authForSave = {
+		...auth,
+		email: auth.email.toLowerCase(),
+	};
+
 	dispatch(startLoading());
-	axios.post(URL.USER.CHANGE_EMAIL(auth.id), auth, RequestConfig)
+	axios.post(URL.USER.CHANGE_EMAIL(authForSave.id), authForSave, RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.CHANGE_EMAIL,
@@ -166,7 +171,7 @@ const changeUserNotification = (auth) => dispatch => {
 
 const auth = (email, password) => dispatch => {
 	const user = {
-		email,
+		email: email.toLowerCase(),
 		password: hmacSha256(password, "$!@#$%$#@").toString(),
 	};
 	dispatch(startLoading());
@@ -187,6 +192,7 @@ const auth = (email, password) => dispatch => {
 const registration = (user) => dispatch => {
 	const userForSave = {
 		...user,
+		email: user.email.toLowerCase(),
 		password: hmacSha256(user.password, "$!@#$%$#@").toString(),
 	};
 
@@ -208,6 +214,7 @@ const registration = (user) => dispatch => {
 const registrationWithSkills = (user) => dispatch => {
 	const userForSave = {
 		...user,
+		email: user.email.toLowerCase(),
 		password: hmacSha256(user.password, "$!@#$%$#@").toString(),
 	};
 
@@ -225,7 +232,7 @@ const registrationWithSkills = (user) => dispatch => {
 
 const forgotPassword = (email) => dispatch => {
 	const auth = {
-		email,
+		email: email.toLowerCase(),
 	};
 
 	dispatch(startLoading());
