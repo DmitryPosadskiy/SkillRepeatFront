@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './reducer'
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { AppSetting } from './common/settings';
 import ActionType from './common/ActionType';
 
-const store = createStore(rootReducer, compose(devToolsEnhancer(), applyMiddleware(load, dump)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(load, dump)));
 
 store.dispatch({ type: ActionType.Common.INIT });
 
@@ -20,7 +20,7 @@ serviceWorker.unregister();
 
 function load({ getState }) {
 	return next => action => {
-		const { action: { type } = {} } = action;
+		const { type } = action;
 
 		if (type === ActionType.Common.INIT) {
 			try {
