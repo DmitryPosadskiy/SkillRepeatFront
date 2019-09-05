@@ -35,13 +35,14 @@ class Skill extends Component {
 
 		let repeatAgoView = getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')));
 		return (
-			<List.Item key={id} onClick={this.onClickOpenSkillPage}>
+			<List.Item style={{padding: 0, paddingTop: '10px', paddingBottom: '10px'}} key={id} onClick={this.onClickOpenSkillPage}>
+				<List.Content floated='right'>
+					{repeatAgoView}
+				</List.Content>
 				<List.Content>
-					<Header as='h4'>
-						<Label circular size='huge' color={isNeedRepeat ? 'yellow' : 'green'}>{level}</Label>
-						<Header.Content>{name}
-							<Header.Subheader>{repeatAgoView}</Header.Subheader>
-						</Header.Content>
+					<Header as='a' style={{display: 'flex', flexDirection: 'row'}}>
+						<Label style={{padding: 0, margin: 0}} circular size='huge' color={isNeedRepeat ? 'yellow' : 'green'}>{level}</Label>
+						<Header.Content style={{alignSelf: 'center', marginLeft: '14px'}}>{name}</Header.Content>
 					</Header>
 				</List.Content>
 			</List.Item>

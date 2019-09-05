@@ -22,7 +22,7 @@ class User extends Component {
 				{
 					skills.length > 0 ? (
 						<div>
-							<List>
+							<List selection verticalAlign='middle' divided relaxed>
 								{
 									needRepeatSkills && needRepeatSkills.map((skill) => (
 										<Skill
@@ -32,7 +32,7 @@ class User extends Component {
 									))
 								}
 							</List>
-							<List>
+							<List selection verticalAlign='middle'>
 								{
 									repeatedSkills && repeatedSkills.map((skill) => (
 										<Skill
