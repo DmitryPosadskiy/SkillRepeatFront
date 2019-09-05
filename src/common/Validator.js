@@ -50,7 +50,7 @@ const createUserAgreeTermsValidate = (isAgree) => isAgree;
 const createUserValidate = (user) => authEmailValidate(user.email)
 	&& authPasswordValidate(user.password)
 	&& createUserNameValidate(user.name)
-	&& createUserAgreeEmailValidate(user.isAgreeEmails)
+	&& createUserAgreeEmailValidate(user.isAgreeGetEmails)
 	&& createUserAgreeTermsValidate(user.isAgreeTerms);
 
 export const CreateUserValidator = {

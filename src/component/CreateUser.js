@@ -11,7 +11,7 @@ class CreateUser extends Component {
 		period: '',
 		time: '',
 		isAgreeTerms: false,
-		isAgreeEmails: false,
+		isAgreeGetEmails: false,
 
 		isChangeNotificationSetting: false,
 
@@ -19,7 +19,7 @@ class CreateUser extends Component {
 		isEmailValidationError: true,
 		isPasswordValidationError: true,
 		isNameValidationError: false,
-		isAgreeEmailValidationError: false,
+		isAgreeGetEmailsValidationError: false,
 		isAgreeTermsValidationError: true,
 		isPeriodError: true,
 		isTimeError: true,
@@ -71,16 +71,16 @@ class CreateUser extends Component {
 	};
 
 	onChangeIsAgreeEmails = (e, value) => {
-		const {isAgreeEmailValidationError} = this.state;
-		const isAgreeEmails = value.checked;
+		const {isAgreeGetEmailsValidationError} = this.state;
+		const isAgreeGetEmails = value.checked;
 
-		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeEmails)) {
-			!isAgreeEmailValidationError && this.setState({isAgreeEmailValidationError: true})
+		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeGetEmails)) {
+			!isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: true})
 		} else {
-			isAgreeEmailValidationError && this.setState({isAgreeEmailValidationError: false})
+			isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: false})
 		}
 
-		this.setState({isAgreeEmails});
+		this.setState({isAgreeGetEmails});
 	};
 
 	onChangeFormPeriod = (event) => {
@@ -134,7 +134,7 @@ class CreateUser extends Component {
 			email,
 			password,
 			name,
-			isAgreeEmails,
+			isAgreeGetEmails,
 			isAgreeTerms,
 
 			isValidationError,
@@ -144,7 +144,7 @@ class CreateUser extends Component {
 			email,
 			password,
 			name,
-			isAgreeEmails,
+			isAgreeGetEmails,
 			isAgreeTerms,
 		};
 
@@ -155,7 +155,7 @@ class CreateUser extends Component {
 
 		isValidationError && this.setState({isValidationError: false});
 
-		if (!isAgreeEmails) {
+		if (!isAgreeGetEmails) {
 			this.setState({isModalOpen: true});
 			return;
 		}
@@ -163,7 +163,7 @@ class CreateUser extends Component {
 		registration(user);
 	};
 
-	onModalClick = (isAgreeEmails) => {
+	onModalClick = (isAgreeGetEmails) => {
 		const {
 			registration,
 		} = this.props;
@@ -178,7 +178,7 @@ class CreateUser extends Component {
 			email,
 			password,
 			name,
-			isAgreeEmails,
+			isAgreeGetEmails,
 		};
 
 		registration(user);
@@ -192,7 +192,7 @@ class CreateUser extends Component {
 			period,
 			time,
 			isAgreeTerms,
-			isAgreeEmails,
+			isAgreeGetEmails,
 
 			isChangeNotificationSetting,
 
@@ -200,7 +200,7 @@ class CreateUser extends Component {
 			isNameValidationError,
 			isEmailValidationError,
 			isPasswordValidationError,
-			isAgreeEmailValidationError,
+			isAgreeGetEmailsValidationError,
 			isAgreeTermsValidationError,
 			isPeriodError,
 			isTimeError,
@@ -273,9 +273,9 @@ class CreateUser extends Component {
 								)
 							}
 							<Form.Checkbox
-								checked={isAgreeEmails}
+								checked={isAgreeGetEmails}
 								onClick={this.onChangeIsAgreeEmails}
-								error={isValidationError && isAgreeEmailValidationError ? 'We cannot service you without it' : undefined}
+								error={isValidationError && isAgreeGetEmailsValidationError ? 'We cannot service you without it' : undefined}
 								label='I agree to get emails'
 							/>
 							<Form.Checkbox

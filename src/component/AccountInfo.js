@@ -8,11 +8,11 @@ class AccountInfo extends Component {
 
 	state = {
 		name: this.props.name,
-		isAgreeEmails: this.props.isAgreeEmails,
+		isAgreeGetEmails: this.props.isAgreeGetEmails,
 
 		isValidationError: false,
 		isNameValidationError: false,
-		isAgreeEmailValidationError: false,
+		isAgreeGetEmailsValidationError: false,
 
 		isEmailModalOpen: false,
 		isDeleteAccountModalOpen: false,
@@ -32,21 +32,21 @@ class AccountInfo extends Component {
 	};
 
 	onChangeIsAgreeEmails = (e, value) => {
-		const {isAgreeEmailValidationError} = this.state;
-		const isAgreeEmails = value.checked;
+		const {isAgreeGetEmailsValidationError} = this.state;
+		const isAgreeGetEmails = value.checked;
 
-		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeEmails)) {
-			!isAgreeEmailValidationError && this.setState({isAgreeEmailValidationError: true})
+		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeGetEmails)) {
+			!isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: true})
 		} else {
-			isAgreeEmailValidationError && this.setState({isAgreeEmailValidationError: false})
+			isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: false})
 		}
 
-		if (!isAgreeEmails) {
+		if (!isAgreeGetEmails) {
 			this.setState({isEmailModalOpen: true});
 			return;
 		}
 
-		this.setState({isAgreeEmails: true});
+		this.setState({isAgreeGetEmails: true});
 	};
 
 	cancel = () => {
@@ -56,7 +56,7 @@ class AccountInfo extends Component {
 	onClickChangeAccountInfo = () => {
 		const {
 			name,
-			isAgreeEmails,
+			isAgreeGetEmails,
 		} = this.state;
 
 		const {
@@ -66,7 +66,7 @@ class AccountInfo extends Component {
 		const user = {
 			id,
 			name,
-			isAgreeEmails,
+			isAgreeGetEmails,
 		};
 
 		this.props.updateUser(user);
@@ -77,7 +77,7 @@ class AccountInfo extends Component {
 	};
 
 	onEmailModalCancel = () => {
-		this.setState({isAgreeEmails: false});
+		this.setState({isAgreeGetEmails: false});
 		this.onEmailModalClose();
 	};
 
@@ -111,11 +111,11 @@ class AccountInfo extends Component {
 	render() {
 		const {
 			name,
-			isAgreeEmails,
+			isAgreeGetEmails,
 
 			isValidationError,
 			isNameValidationError,
-			isAgreeEmailValidationError,
+			isAgreeGetEmailsValidationError,
 
 			isEmailModalOpen,
 			isDeleteAccountModalOpen,
@@ -138,9 +138,9 @@ class AccountInfo extends Component {
 								placeholder='Name'
 							/>
 							<Form.Checkbox
-								checked={isAgreeEmails}
+								checked={isAgreeGetEmails}
 								onClick={this.onChangeIsAgreeEmails}
-								error={isValidationError && isAgreeEmailValidationError ? 'We cannot service you without it' : undefined}
+								error={isValidationError && isAgreeGetEmailsValidationError ? 'We cannot service you without it' : undefined}
 								label='I agree to get emails'
 							/>
 							<Button.Group fluid>
@@ -202,7 +202,7 @@ class AccountInfo extends Component {
 const mapStateToProps = (state) => ({
 	id: state.user.user.id,
 	name: state.user.user.name,
-	isAgreeEmails: state.user.user.isAgreeEmails,
+	isAgreeGetEmails: state.user.user.isAgreeGetEmails,
 });
 
 const mapDispatchToProps = (dispatch) => ({
