@@ -26,6 +26,10 @@ function load({ getState }) {
 			try {
 				const state = JSON.parse(localStorage.getItem(AppSetting.APP_NAME));
 				if (!state) return;
+
+				state.user.isLoading = false;
+				state.user.error = undefined;
+
 				store.dispatch({
 					type: ActionType.Common.RESET_STATE,
 					state,
