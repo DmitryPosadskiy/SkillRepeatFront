@@ -39,6 +39,8 @@ class ErrorBoundary extends Component {
 		} = this.props;
 
 		const errorObject = hasError ? errorInfo : error;
+		const title = errorObject ? errorObject.title || errorObject.name : 'Error';
+		const message = errorObject ? errorObject.message : 'Something wrong. We already work with it. Please, try again later';
 
 		return (
 			<Modal
@@ -48,9 +50,9 @@ class ErrorBoundary extends Component {
 				basic
 				size='small'
 			>
-				<Header icon='browser' content={!!errorObject ? error.name : 'Error'} />
+				<Header icon='browser' content={title} />
 				<Modal.Content>
-					<h3>{!!error ? error.message : 'Something wrong. Try again'}</h3>
+					<h3>{message}</h3>
 				</Modal.Content>
 				<Modal.Actions>
 					<Button color='green' onClick={this.closeError} inverted>

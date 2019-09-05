@@ -16,7 +16,10 @@ const getDaysBetweenTwoDates = (date1, period) => {
 	return period - dayAgo;
 };
 
+const toError = (error) => error.response ? error.response.data : error;
+
 export {
 	getDaysAgoFromDate,
 	getDaysBetweenTwoDates,
+	toError,
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import hmacSha256 from 'crypto-js/hmac-sha256';
 import Action from '../action';
 import {RequestConfig} from '../common/settings';
+import {toError} from '../common/Utils';
 
 const saveSkills = (userId, skills) => dispatch => {
 	dispatch(startLoading());
@@ -18,7 +19,7 @@ const saveSkills = (userId, skills) => dispatch => {
 		.catch(error => {
 			dispatch({
 				type: ActionType.User.UPDATE_USER,
-				error,
+				error: toError(error),
 			});
 		});
 };
@@ -35,7 +36,7 @@ const editSkill = (userId, skill) => dispatch => {
 		.catch(error => {
 			dispatch({
 				type: ActionType.User.EDIT_SKILL,
-				error,
+				error: toError(error),
 			});
 		});
 };
@@ -49,7 +50,7 @@ const deleteSkill = (userId, skillId) => dispatch => {
 		}))
 		.catch(error => dispatch({
 			type: ActionType.User.EDIT_SKILL,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -63,7 +64,7 @@ const repeatSkill = (userId, skillId) => (dispatch) => {
 		.catch(error => {
 			dispatch({
 				type: ActionType.User.REPEAT_SKILL,
-				error,
+				error: toError(error),
 			});
 		});
 };
@@ -77,7 +78,7 @@ const save = (user) => dispatch => {
 		}))
 		.catch(error => dispatch({
 			type: ActionType.User.SAVE_USER,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -93,7 +94,7 @@ const updateUser = (user) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.UPDATE_USER,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -108,7 +109,7 @@ const deleteUser = (userId) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.DELETE_SKILL,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -128,7 +129,7 @@ const changePassword = (userId, oldPassword, newPassword) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.CHANGE_PASSWORD,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -149,7 +150,7 @@ const changeUserEmail = (auth) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.CHANGE_EMAIL,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -165,7 +166,7 @@ const changeUserNotification = (auth) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.CHANGE_NOTIFICATION,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -185,7 +186,7 @@ const auth = (email, password) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.USER_BY_NAME,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -207,7 +208,7 @@ const registration = (user) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.REG,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -226,7 +227,7 @@ const registrationWithSkills = (user) => dispatch => {
 		}))
 		.catch(error => dispatch({
 			type: ActionType.User.REG,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -242,7 +243,7 @@ const forgotPassword = (email) => dispatch => {
 		}))
 		.catch(error => dispatch({
 			type: ActionType.User.FORGOT_PASSWORD,
-			error,
+			error: toError(error),
 		}));
 };
 
@@ -261,7 +262,7 @@ const sendMessage = (userId, message) => dispatch => {
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.SEND_MESSAGE,
-			error,
+			error: toError(error),
 		}));
 };
 
