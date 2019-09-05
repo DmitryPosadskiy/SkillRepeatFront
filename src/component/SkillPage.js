@@ -39,7 +39,7 @@ class SkillPage extends Component {
 					{name}
 				</Header>
 				<Label style={{width: 'fit-content', margin: '0 auto'}}>Last
-					repeat {getDaysAgoFromDate(new Date(lastRepeat))}</Label>
+					repeat {getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')))}</Label>
 				{
 					isNeedRepeat && (
 						<div style={{paddingTop: '14px', paddingBottom: '10px', textAlign: 'center'}}>
