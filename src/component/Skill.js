@@ -33,7 +33,7 @@ class Skill extends Component {
 			} = {},
 		} = this.props;
 
-		let repeatAgoView = getDaysAgoFromDate(new Date(lastRepeat));
+		let repeatAgoView = getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')));
 		return (
 			<List.Item key={id} onClick={this.onClickOpenSkillPage}>
 				<List.Content>
