@@ -134,6 +134,8 @@ class CreateUser extends Component {
 			email,
 			password,
 			name,
+			period,
+			time,
 			isAgreeGetEmails,
 			isAgreeTerms,
 
@@ -144,6 +146,8 @@ class CreateUser extends Component {
 			email,
 			password,
 			name,
+			period,
+			time,
 			isAgreeGetEmails,
 			isAgreeTerms,
 		};
@@ -180,6 +184,8 @@ class CreateUser extends Component {
 			name,
 			isAgreeGetEmails,
 		};
+
+		this.setState({isModalOpen: false});
 
 		registration(user);
 	};
