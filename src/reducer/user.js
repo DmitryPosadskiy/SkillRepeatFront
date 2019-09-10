@@ -7,7 +7,6 @@ const defaultUser = {
 const defaultState = {
 	isAuth: false,
 	user: defaultUser,
-	choseSkillId: undefined,
 };
 
 const user = (state = defaultState, action) => {
@@ -34,8 +33,20 @@ const user = (state = defaultState, action) => {
 			user: action.user,
 			isLoading: false,
 		};
-		case ActionType.User.CHANGE_PASSWORD: return {
+		case ActionType.User.CHECK_MATCH_PASSWORD: return {
 			...state,
+			isLoading: false,
+		};
+		case ActionType.User.SAVE_PASSWORD: return {
+			...state,
+			user: action.user,
+			isAuth: true,
+			isLoading: false,
+		};
+		case ActionType.User.CONFIRM_EMAIL: return {
+			...state,
+			user: action.user,
+			isAuth: true,
 			isLoading: false,
 		};
 		case ActionType.User.CHANGE_EMAIL: return {
@@ -74,7 +85,7 @@ const user = (state = defaultState, action) => {
 			user: action.user,
 			isLoading: false,
 		};
-		case ActionType.User.USER_BY_NAME: return {
+		case ActionType.User.AUTH: return {
 			...state,
 			user: action.user,
 			isAuth: true,
@@ -85,10 +96,6 @@ const user = (state = defaultState, action) => {
 			user: action.user,
 			isAuth: true,
 			isLoading: false,
-		};
-		case ActionType.User.CHOSE_SKILL_ID: return {
-			...state,
-			choseSkillId: action.skillId,
 		};
 		case ActionType.User.CLEAR: return {
 			...state,

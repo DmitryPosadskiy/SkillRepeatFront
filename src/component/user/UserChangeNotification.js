@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Grid, Header} from "semantic-ui-react";
-import {ChangeNotificationValidator, SkillValidator} from "../common/Validator";
-import Action from "../action";
+import {Validator} from "../../common";
+import Action from "../../action";
 
-class ChangeNotification extends Component {
+class UserChangeNotification extends Component {
 
 	state = {
 		period: this.props.period,
@@ -21,7 +21,7 @@ class ChangeNotification extends Component {
 		const { isPeriodValidationError } = this.state;
 		const period = event.target.value;
 
-		if (SkillValidator.skillPeriodValidate(period)) {
+		if (Validator.SkillValidator.skillPeriodValidate(period)) {
 			isPeriodValidationError && this.setState({isPeriodValidationError: false});
 		} else {
 			!isPeriodValidationError && this.setState({isPeriodValidationError: true});
@@ -33,7 +33,7 @@ class ChangeNotification extends Component {
 	onChangeFormTime = (e, {value}) => {
 		const { isTimeValidationError } = this.state;
 
-		if (SkillValidator.skillTimeValidate(value)) {
+		if (Validator.SkillValidator.skillTimeValidate(value)) {
 			isTimeValidationError && this.setState({isTimeValidationError: false});
 		} else {
 			!isTimeValidationError && this.setState({isTimeValidationError: true});
@@ -61,7 +61,7 @@ class ChangeNotification extends Component {
 			time,
 		};
 
-		if (!ChangeNotificationValidator.changeNotificationValidate(user)) {
+		if (!Validator.ChangeNotificationValidator.changeNotificationValidate(user)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -114,8 +114,6 @@ class ChangeNotification extends Component {
 								/>
 							</Form.Group>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
-								<Button.Or />
 								<Button onClick={this.onChangeNotification} positive>Save</Button>
 							</Button.Group>
 						</Form>
@@ -136,4 +134,4 @@ const mapDispatchToProps = (dispatch) => ({
 	changeUserNotification: (user) => Action.User.changeUserNotification(user)(dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangeNotification);
+export default connect(mapStateToProps, mapDispatchToProps)(UserChangeNotification);

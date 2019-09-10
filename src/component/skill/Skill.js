@@ -1,25 +1,14 @@
 import React, {Component} from 'react';
-
 import {Header, List, Label} from 'semantic-ui-react';
-import {getDaysAgoFromDate} from '../common/Utils';
-import Action from "../action";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+import {Url, Utils} from '../../common';
+import Action from "../../action";
 
 class Skill extends Component {
 	deleteSkill = (id) => {
 		this.props.deleteSkill(id);
 		this.closeModal();
-	};
-
-	onClickOpenSkillPage = () => {
-		const {
-			skill,
-			openSkillPage,
-			choseSkillId,
-		} = this.props;
-
-		choseSkillId(skill.id);
-		openSkillPage(skill);
 	};
 
 	render() {
@@ -33,9 +22,9 @@ class Skill extends Component {
 			} = {},
 		} = this.props;
 
-		let repeatAgoView = getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')));
+		let repeatAgoView = Utils.getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')));
 		return (
-			<List.Item style={{padding: 0, paddingTop: '10px', paddingBottom: '10px'}} key={id} onClick={this.onClickOpenSkillPage}>
+			<List.Item as={Link} to={Url.PAGE.SKILL_PAGE(id)} style={{padding: 0, paddingTop: '10px', paddingBottom: '10px'}} key={id}>
 				<List.Content floated='right'>
 					{repeatAgoView}
 				</List.Content>
@@ -51,7 +40,6 @@ class Skill extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	openSkillPage: () => dispatch(Action.Page.openSkillPage()),
 	choseSkillId: (skillId) => dispatch(Action.User.choseSkillId(skillId))
 });
 

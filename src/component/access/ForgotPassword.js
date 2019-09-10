@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Button, Form, Grid, Header} from "semantic-ui-react";
-import { AuthValidator } from '../common/Validator';
+import {Validator} from '../../common';
+import Action from "../../action";
 
 class ForgotPassword extends Component {
 	state = {
@@ -13,7 +15,7 @@ class ForgotPassword extends Component {
 		const {isEmailValidationError} = this.state;
 		const email = event.target.value;
 
-		if (!AuthValidator.authEmailValidate(email)) {
+		if (!Validator.AuthValidator.authEmailValidate(email)) {
 			!isEmailValidationError && this.setState({isEmailValidationError: true})
 		} else {
 			isEmailValidationError && this.setState({isEmailValidationError: false})
@@ -22,17 +24,13 @@ class ForgotPassword extends Component {
 		this.setState({email});
 	};
 
-	cancel = () => {
-		this.props.openUserLoginPage();
-	};
-
 	onClickForgotPassword = () => {
 		const {
 			email,
 			isValidationError,
 		} = this.state;
 
-		if (!AuthValidator.authEmailValidate(email)) {
+		if (!Validator.AuthValidator.authEmailValidate(email)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -50,7 +48,7 @@ class ForgotPassword extends Component {
 		} = this.state;
 
 		return (
-			<Grid verticalAlign='middle' style={{ height: '100vh' }} columns={1} centered>
+			<Grid verticalAlign='middle' style={{height: '100vh'}} columns={1} centered>
 				<Grid.Row>
 					<Grid.Column>
 						<Form>
@@ -67,8 +65,6 @@ class ForgotPassword extends Component {
 								placeholder='E-mail address'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
-								<Button.Or />
 								<Button onClick={this.onClickForgotPassword} positive>Request new password</Button>
 							</Button.Group>
 						</Form>
@@ -79,4 +75,8 @@ class ForgotPassword extends Component {
 	}
 }
 
-export default ForgotPassword;
+const mapDispatchToProps = (dispatch) => ({
+	forgotPassword: (email) => Action.User.forgotPassword(email)(dispatch),
+});
+
+export default connect(undefined, mapDispatchToProps)(ForgotPassword);

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 
-import {Grid, Header, Image, List} from 'semantic-ui-react';
-import Skill from "./Skill";
+import {Grid, Header, List} from 'semantic-ui-react';
+import {Skill} from "../component";
 import {connect} from 'react-redux';
 
-class User extends Component {
+class Home extends Component {
 
 	render() {
 		const {
@@ -16,9 +16,6 @@ class User extends Component {
 
 		return (
 			<div>
-				<Header as='h2' icon textAlign='center'>
-					<Image src={'/repeat.png'} size='tiny' verticalAlign='bottom'/> Skill Repeater
-				</Header>
 				{
 					skills.length > 0 ? (
 						<div>
@@ -49,8 +46,8 @@ class User extends Component {
 								<Grid.Column>
 									<Header
 										as='h1'
-										content='You list is empty'
-										subheader='Add skill that you would like to train'
+										content='My list is empty'
+										subheader='Add skill you would like to train'
 									/>
 								</Grid.Column>
 							</Grid.Row>
@@ -67,4 +64,4 @@ const mapStateToProps = (state) => ({
 	isAuth: state.user.isAuth,
 });
 
-export default connect(mapStateToProps, undefined)(User);
+export default connect(mapStateToProps, undefined)(Home);

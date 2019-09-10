@@ -1,26 +1,33 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import 'semantic-ui-css/semantic.min.css';
-
-import { Segment } from 'semantic-ui-react';
-import Center from './component/Center';
-import Footer from './component/Footer';
+import {Router} from "react-router-dom";
+import {Segment} from 'semantic-ui-react';
+import {History} from "./common";
+import {
+	Loader,
+	Header,
+	Routes,
+	Footer,
+} from './component/';
 import ErrorBoundary from './ErrorBoundary';
-import Loader from "./component/Loader";
 
 class App extends Component {
-  render() {
-    return (
-	    <ErrorBoundary>
-		    <Loader>
-					<Segment style={{marginTop: 0, border: 'none', boxShadow: 'none'}}>
-		        <Center/>
-		        <Footer/>
-					</Segment>
-		    </Loader>
-	    </ErrorBoundary>
-    );
-  }
+	render() {
+		return (
+			<Router history={History.history}>
+				<ErrorBoundary>
+					<Loader>
+						<Segment style={{marginTop: 0, paddingTop: '50px', border: 'none', boxShadow: 'none'}}>
+							<Header/>
+							<Routes/>
+							<Footer/>
+						</Segment>
+					</Loader>
+				</ErrorBoundary>
+			</Router>
+		);
+	}
 }
 
 export default App;

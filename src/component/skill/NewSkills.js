@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 
-import { Button, Form, Transition, List } from 'semantic-ui-react'
+import {Button, Form, List, Transition} from 'semantic-ui-react'
 import NewSkill from "./NewSkill";
-import Action from "../action";
+import Action from "../../action";
 import {connect} from "react-redux";
-import { SkillValidator } from '../common/Validator';
+import {Validator} from '../../common';
 
 class NewSkills extends Component {
 	state = {
@@ -56,7 +56,7 @@ class NewSkills extends Component {
 			isValidationError,
 		} = this.state;
 
-		if (!SkillValidator.skillsValidate(newSkills)) {
+		if (!Validator.SkillValidator.skillsValidate(newSkills)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		} else {
@@ -90,8 +90,8 @@ class NewSkills extends Component {
 					))}
 				</Transition.Group>
 				<Button.Group>
-					<Button disabled={newSkills.length === 1} icon='minus' onClick={this.onDeleteSkill} />
-					<Button disabled={newSkills.length === 3} icon='plus' onClick={this.onAddSkill} />
+					<Button disabled={newSkills.length === 1} icon='minus' onClick={this.onDeleteSkill}/>
+					<Button disabled={newSkills.length === 3} icon='plus' onClick={this.onAddSkill}/>
 					<Button onClick={this.saveSkill} positive>Add</Button>
 				</Button.Group>
 			</Form>
@@ -105,7 +105,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
 	saveSkills: (user, skills) => Action.User.saveSkills(user, skills)(dispatch),
-	openMainPage: () => dispatch(Action.Page.openMainPage()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSkills);

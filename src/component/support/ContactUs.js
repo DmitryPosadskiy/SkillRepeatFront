@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Button, Form, Grid, Header, List} from "semantic-ui-react";
-import {ContactUsValidator} from "../common/Validator";
-import Action from "../action";
+import {Validator} from "../../common";
+import Action from "../../action";
 
 class ContactUs extends Component {
 	state = {
@@ -16,7 +16,7 @@ class ContactUs extends Component {
 		const { isMessageValidationError } = this.state;
 		const message = event.target.value;
 
-		if (ContactUsValidator.contactUsMessageValidate(message)) {
+		if (Validator.ContactUsValidator.contactUsMessageValidate(message)) {
 			isMessageValidationError && this.setState({isMessageValidationError: false});
 		} else {
 			!isMessageValidationError && this.setState({isMessageValidationError: true});
@@ -44,7 +44,7 @@ class ContactUs extends Component {
 			sendMessage,
 		} = this.props;
 
-		if (!ContactUsValidator.contactUsMessageValidate(message)) {
+		if (!Validator.ContactUsValidator.contactUsMessageValidate(message)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -52,7 +52,7 @@ class ContactUs extends Component {
 		isValidationError && this.setState({isValidationError: false});
 
 		sendMessage(userId, message);
-	};
+	};F
 
 	render() {
 		const {
@@ -85,8 +85,6 @@ class ContactUs extends Component {
 								placeholder='Your message'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
-								<Button.Or />
 								<Button onClick={this.onClickSendMessage} positive>Send</Button>
 							</Button.Group>
 						</Form>

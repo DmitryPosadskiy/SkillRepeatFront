@@ -1,62 +1,63 @@
-import URL from '../common/URL';
-import ActionType from '../common/ActionType';
 import axios from 'axios';
 import hmacSha256 from 'crypto-js/hmac-sha256';
-import Action from '../action';
-import {RequestConfig} from '../common/settings';
-import {toError} from '../common/Utils';
+import {Url, History, Setting, Utils} from '../common';
+import ActionType from '../common/ActionType';
 
 const saveSkills = (userId, skills) => dispatch => {
 	dispatch(startLoading());
-	axios.post(URL.USER.SAVE_SKILL(userId), skills, RequestConfig)
+	axios.post(Url.USER.SAVE_SKILL(userId), skills, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.UPDATE_USER,
 				user: result.data,
 			});
-			dispatch(Action.Page.openMainPage())
+			History.push(Url.PAGE.HOME);
 		})
 		.catch(error => {
 			dispatch({
 				type: ActionType.User.UPDATE_USER,
-				error: toError(error),
+				error: Utils.toError(error),
 			});
 		});
 };
 
 const editSkill = (userId, skill) => dispatch => {
 	dispatch(startLoading());
-	axios.post(URL.USER.EDIT_SKILL(userId), skill, RequestConfig)
+	axios.post(Url.USER.EDIT_SKILL(userId), skill, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.EDIT_SKILL,
 				user: result.data,
 			});
+			History.push(Url.PAGE.SKILL_PAGE(skill.id));
 		})
 		.catch(error => {
 			dispatch({
 				type: ActionType.User.EDIT_SKILL,
-				error: toError(error),
+				error: Utils.toError(error),
 			});
 		});
 };
 
 const deleteSkill = (userId, skillId) => dispatch => {
 	dispatch(startLoading());
-	axios.delete(URL.USER.DELETE_SKILL(userId, skillId), RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.DELETE_SKILL,
-			user: result.data,
-		}))
+	axios.delete(Url.USER.DELETE_SKILL(userId, skillId), Setting.RequestConfig)
+		.then(result => {
+			dispatch({
+				type: ActionType.User.DELETE_SKILL,
+				user: result.data,
+			});
+			History.push(Url.PAGE.HOME);
+		})
 		.catch(error => dispatch({
 			type: ActionType.User.EDIT_SKILL,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
 const repeatSkill = (userId, skillId) => (dispatch) => {
 	dispatch(startLoading());
-	axios.get(URL.USER.REPEAT_SKILL(userId, skillId), RequestConfig)
+	axios.get(Url.USER.REPEAT_SKILL(userId, skillId), Setting.RequestConfig)
 		.then(result => dispatch({
 			type: ActionType.User.REPEAT_SKILL,
 			user: result.data,
@@ -64,72 +65,79 @@ const repeatSkill = (userId, skillId) => (dispatch) => {
 		.catch(error => {
 			dispatch({
 				type: ActionType.User.REPEAT_SKILL,
-				error: toError(error),
+				error: Utils.toError(error),
 			});
 		});
 };
 
-const save = (user) => dispatch => {
-	dispatch(startLoading());
-	axios.put(URL.USER.SAVE, user, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.SAVE_USER,
-			user: result.data,
-		}))
-		.catch(error => dispatch({
-			type: ActionType.User.SAVE_USER,
-			error: toError(error),
-		}));
-};
-
 const updateUser = (user) => dispatch => {
 	dispatch(startLoading());
-	axios.post(URL.USER.UPDATE, user, RequestConfig)
+	axios.post(Url.USER.UPDATE, user, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.UPDATE_USER,
 				user: result.data,
 			});
-			dispatch(Action.Page.openMainPage());
+			History.push(Url.PAGE.USER);
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.UPDATE_USER,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
 const deleteUser = (userId) => dispatch => {
 	dispatch(startLoading());
-	axios.delete(URL.USER.DELETE(userId), RequestConfig)
+	axios.delete(Url.USER.DELETE(userId), Setting.RequestConfig)
 		.then(() => {
 			dispatch({
 				type: ActionType.User.DELETE_USER,
 			});
-			dispatch(Action.Page.openMainPage())
+			History.push(Url.PAGE.AUTH);
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.DELETE_SKILL,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
-const changePassword = (userId, oldPassword, newPassword) => dispatch => {
-	const auth = {
-		oldPassword: hmacSha256(oldPassword, "$!@#$%$#@").toString(),
-		password: hmacSha256(newPassword, "$!@#$%$#@").toString(),
+const checkMatchPassword = (userId, password) => dispatch => {
+	const user = {
+		id: userId,
+		password: hmacSha256(password, "$!@#$%$#@").toString(),
 	};
 
 	dispatch(startLoading());
-	axios.post(URL.USER.CHANGE_PASSWORD(userId), auth, RequestConfig)
-		.then(() => {
+	axios.post(Url.USER.CHECK_PASSWORDS_MATCH(userId), user, Setting.RequestConfig)
+		.then((result) => {
 			dispatch({
-				type: ActionType.User.CHANGE_PASSWORD,
+				type: ActionType.User.CHECK_MATCH_PASSWORD,
 			});
-			dispatch(Action.Page.openMainPage());
+			History.push(Url.PAGE.USER_PASSWORD_SAVE(result.data.hash));
 		})
 		.catch(error => dispatch({
-			type: ActionType.User.CHANGE_PASSWORD,
-			error: toError(error),
+			type: ActionType.User.CHECK_MATCH_PASSWORD,
+			error: Utils.toError(error),
+		}));
+};
+
+const savePassword = (hash, password) => dispatch => {
+	const user = {
+		password: hmacSha256(password, "$!@#$%$#@").toString(),
+	};
+
+	dispatch(startLoading());
+	axios.post(Url.USER.CHANGE_PASSWORD(hash), user, Setting.RequestConfig)
+		.then((result) => {
+			dispatch({
+				type: ActionType.User.SAVE_PASSWORD,
+				user: result.data,
+			});
+			History.push(Url.PAGE.USER);
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.SAVE_PASSWORD,
+			error: Utils.toError(error),
 		}));
 };
 
@@ -140,33 +148,33 @@ const changeUserEmail = (auth) => dispatch => {
 	};
 
 	dispatch(startLoading());
-	axios.post(URL.USER.CHANGE_EMAIL(authForSave.id), authForSave, RequestConfig)
+	axios.post(Url.USER.CHANGE_EMAIL(authForSave.id), authForSave, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.CHANGE_EMAIL,
 				user: result.data,
 			});
-			dispatch(Action.Page.openMainPage());
+			History.push(Url.PAGE.USER);
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.CHANGE_EMAIL,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
 const changeUserNotification = (auth) => dispatch => {
 	dispatch(startLoading());
-	axios.post(URL.USER.CHANGE_NOTIFICATION(auth.id), auth, RequestConfig)
+	axios.post(Url.USER.CHANGE_NOTIFICATION(auth.id), auth, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.CHANGE_NOTIFICATION,
 				user: result.data,
 			});
-			dispatch(Action.Page.openMainPage());
+			History.push(Url.PAGE.USER);
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.CHANGE_NOTIFICATION,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
@@ -176,17 +184,17 @@ const auth = (email, password) => dispatch => {
 		password: hmacSha256(password, "$!@#$%$#@").toString(),
 	};
 	dispatch(startLoading());
-	axios.post(URL.USER.AUTH, user, RequestConfig)
+	axios.post(Url.USER.AUTH, user, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
-				type: ActionType.User.USER_BY_NAME,
+				type: ActionType.User.AUTH,
 				user: result.data,
 			});
-			dispatch(Action.Page.openMainPage());
+			History.push(Url.PAGE.HOME);
 		})
 		.catch(error => dispatch({
-			type: ActionType.User.USER_BY_NAME,
-			error: toError(error),
+			type: ActionType.User.AUTH,
+			error: Utils.toError(error),
 		}));
 };
 
@@ -198,36 +206,17 @@ const registration = (user) => dispatch => {
 	};
 
 	dispatch(startLoading());
-	axios.post(URL.USER.REG, userForSave, RequestConfig)
+	axios.post(Url.USER.REG, userForSave, Setting.RequestConfig)
 		.then(result => {
 			dispatch({
 				type: ActionType.User.REG,
 				user: result.data,
 			});
-			dispatch(Action.Page.openMainPage());
+			History.push(Url.PAGE.HOME);
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.REG,
-			error: toError(error),
-		}));
-};
-
-const registrationWithSkills = (user) => dispatch => {
-	const userForSave = {
-		...user,
-		email: user.email.toLowerCase(),
-		password: hmacSha256(user.password, "$!@#$%$#@").toString(),
-	};
-
-	dispatch(startLoading());
-	axios.post(URL.USER.REG_WITH_SKILLS, userForSave, RequestConfig)
-		.then(result => dispatch({
-			type: ActionType.User.REG,
-			user: result.data,
-		}))
-		.catch(error => dispatch({
-			type: ActionType.User.REG,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
@@ -237,13 +226,13 @@ const forgotPassword = (email) => dispatch => {
 	};
 
 	dispatch(startLoading());
-	axios.post(URL.USER.FORGOT_PASSWORD, auth, RequestConfig)
+	axios.post(Url.USER.FORGOT_PASSWORD, auth, Setting.RequestConfig)
 		.then(() => dispatch({
 			type: ActionType.User.FORGOT_PASSWORD,
 		}))
 		.catch(error => dispatch({
 			type: ActionType.User.FORGOT_PASSWORD,
-			error: toError(error),
+			error: Utils.toError(error),
 		}));
 };
 
@@ -253,22 +242,38 @@ const sendMessage = (userId, message) => dispatch => {
 	};
 
 	dispatch(startLoading());
-	axios.post(URL.USER.SEND_MESSAGE(userId), messageForSend, RequestConfig)
+	axios.post(Url.USER.SEND_MESSAGE(userId), messageForSend, Setting.RequestConfig)
 		.then(() => {
 			dispatch({
 				type: ActionType.User.SEND_MESSAGE,
 			});
-			dispatch(Action.Page.openUserSettingsPage());
+			History.push(Url.PAGE.USER);
 		})
 		.catch(error => dispatch({
 			type: ActionType.User.SEND_MESSAGE,
-			error: toError(error),
+			error: Utils.toError(error),
+		}));
+};
+
+const confirmEmail = (hash) => dispatch => {
+	dispatch(startLoading());
+	axios.get(Url.USER.CONFIRM_EMAIL(hash), Setting.RequestConfig)
+		.then((result) => {
+			dispatch({
+				type: ActionType.User.CONFIRM_EMAIL,
+				user: result.data,
+			});
+			History.push(Url.PAGE.HOME);
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.CONFIRM_EMAIL,
+			error: Utils.toError(error),
 		}));
 };
 
 const logOut = () => (dispatch) => {
 	dispatch(clearUser());
-	dispatch(Action.Page.openHelloPage());
+	History.push(Url.PAGE.AUTH);
 };
 
 const clearUser = () => {
@@ -300,21 +305,21 @@ const User = {
 	saveSkills,
 	editSkill,
 	deleteSkill,
-	save,
 	updateUser,
 	changeUserEmail,
 	changeUserNotification,
 	deleteUser,
-	changePassword,
+	checkMatchPassword,
+	savePassword,
 	repeatSkill,
 	auth,
 	registration,
-	registrationWithSkills,
 	forgotPassword,
 	logOut,
 	startLoading,
 	choseSkillId,
 	sendMessage,
+	confirmEmail,
 	readError,
 };
 

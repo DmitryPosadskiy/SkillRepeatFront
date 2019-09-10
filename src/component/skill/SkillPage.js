@@ -1,37 +1,50 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Header, Label} from "semantic-ui-react";
-import {getDaysAgoFromDate, getDaysBetweenTwoDates} from '../common/Utils';
-import Action from "../action";
-import '../index.css';
+import {Utils, Url} from '../../common';
+import Action from "../../action";
+import '../../index.css';
+import {Link} from "react-router-dom";
 
 class SkillPage extends Component {
 
 	onClickRepeatSkill = () => {
 		const {
-			skill: {
-				id: skillId,
-			} = {},
+			skills = [],
 			userId,
 			repeatSkill,
+			match: {
+				params: {
+					id,
+				} = {}
+			} = {},
 		} = this.props;
 
-		repeatSkill(userId, skillId);
+		const skill = skills.filter(skill => id === skill.id)[0];
+
+		repeatSkill(userId, skill.id);
 	};
 
 	render() {
 		const {
-			skill: {
-				name,
-				period,
-				time,
-				lastRepeat,
-				level,
-				isNeedRepeat,
+			skills = [],
+			match: {
+				params: {
+					id,
+				} = {}
 			} = {},
-			cancel,
-			openSkillEditPage,
 		} = this.props;
+
+		const skill = skills.filter(skill => id === skill.id)[0];
+
+		const {
+			name,
+			period,
+			time,
+			lastRepeat,
+			level,
+			isNeedRepeat,
+		} = skill;
 
 		return (
 			<div style={{display: 'flex', flexDirection: 'column'}}>
@@ -39,7 +52,7 @@ class SkillPage extends Component {
 					{name}
 				</Header>
 				<Label style={{width: 'fit-content', margin: '0 auto'}}>Last
-					repeat {getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')))}</Label>
+					repeat {Utils.getDaysAgoFromDate(new Date(lastRepeat.replace(/\++/g, '')))}</Label>
 				{
 					isNeedRepeat && (
 						<div style={{paddingTop: '14px', paddingBottom: '10px', textAlign: 'center'}}>
@@ -57,7 +70,7 @@ class SkillPage extends Component {
 							<p className='marginZero'>You already have repeated your skill</p>
 							{
 								period && (
-									<p className='marginZero'>Please, come back after {getDaysBetweenTwoDates(new Date(lastRepeat), period)} days</p>
+									<p className='marginZero'>Please, come back after {Utils.getDaysBetweenTwoDates(new Date(lastRepeat), period)} days</p>
 								)
 							}
 						</div>
@@ -72,9 +85,7 @@ class SkillPage extends Component {
 					)
 				}
 				<Button.Group fluid>
-					<Button onClick={cancel}>Back</Button>
-					<Button.Or/>
-					<Button onClick={openSkillEditPage} basic>Edit</Button>
+					<Button as={Link} to={Url.PAGE.SKILL_EDIT(id)} basic>Edit</Button>
 				</Button.Group>
 			</div>
 		)
@@ -83,7 +94,7 @@ class SkillPage extends Component {
 
 const mapStateToProps = (state) => ({
 	userId: state.user.user.id,
-	skill: state.user.user.skills.filter(skill => state.user.choseSkillId === skill.id)[0],
+	skills: state.user.user.skills,
 });
 
 const mapDispatchToProps = (dispatch) => ({

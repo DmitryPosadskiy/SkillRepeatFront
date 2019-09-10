@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Form, List} from 'semantic-ui-react'
-import {SkillValidator} from '../common/Validator';
+import {Validator} from '../../common';
 
 const repeatPeriods = [
 	{key: 'today', text: 'Today', value: '0'},
@@ -24,7 +24,7 @@ class NewSkill extends Component {
 	onChangeFormName = (event) => {
 		const name = event.target.value;
 		const isNameError = this.state.isNameError;
-		if (SkillValidator.skillNameValidate(name)) {
+		if (Validator.SkillValidator.skillNameValidate(name)) {
 			isNameError && this.setState({isNameError: false});
 		} else {
 			!isNameError && this.setState({isNameError: true});
@@ -37,7 +37,7 @@ class NewSkill extends Component {
 		const {isPeriodError} = this.state;
 		const period = event.target.value;
 
-		if (SkillValidator.skillPeriodValidate(period)) {
+		if (Validator.SkillValidator.skillPeriodValidate(period)) {
 			isPeriodError && this.setState({isPeriodError: false});
 		} else {
 			!isPeriodError && this.setState({isPeriodError: true});
@@ -49,7 +49,7 @@ class NewSkill extends Component {
 	onChangeFormTime = (e, {value}) => {
 		const {isTimeError} = this.state;
 
-		if (SkillValidator.skillTimeValidate(value)) {
+		if (Validator.SkillValidator.skillTimeValidate(value)) {
 			isTimeError && this.setState({isTimeError: false});
 		} else {
 			!isTimeError && this.setState({isTimeError: true});
@@ -64,7 +64,7 @@ class NewSkill extends Component {
 
 	onChangeTerm = (e, {value}) => {
 		const {isRepeatInLastMonthError} = this.state;
-		if (SkillValidator.skillRepeatInLastMonthValidate(value)) {
+		if (Validator.SkillValidator.skillRepeatInLastMonthValidate(value)) {
 			isRepeatInLastMonthError && this.setState({isRepeatInLastMonthError: false});
 		} else {
 			!isRepeatInLastMonthError && this.setState({isRepeatInLastMonthError: true});
@@ -106,7 +106,7 @@ class NewSkill extends Component {
 						onChange={this.onChangeFormName}
 						fluid
 						label='Skill name'
-						placeholder='Java, Python, ...'
+						placeholder='Java / Python / ...'
 					/>
 					<Form.Checkbox
 						checked={isRepeatInLastMonth}

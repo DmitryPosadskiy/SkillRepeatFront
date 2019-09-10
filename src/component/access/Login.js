@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
-import { Button, Form, Grid, Header } from 'semantic-ui-react';
-import { AuthValidator } from '../common/Validator';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, Form, Grid, Header} from 'semantic-ui-react';
+import {Url, Validator} from '../../common';
+import {Link} from "react-router-dom";
+import Action from "../../action";
 
-class LoginForm extends Component {
+class Login extends Component {
 	state = {
 		email: '',
 		password: '',
@@ -15,7 +18,7 @@ class LoginForm extends Component {
 		const {isEmailValidationError} = this.state;
 		const email = event.target.value;
 
-		if (!AuthValidator.authEmailValidate(email)) {
+		if (!Validator.AuthValidator.authEmailValidate(email)) {
 			!isEmailValidationError && this.setState({isEmailValidationError: true})
 		} else {
 			isEmailValidationError && this.setState({isEmailValidationError: false})
@@ -28,7 +31,7 @@ class LoginForm extends Component {
 		const {isPasswordValidationError} = this.state;
 		const password = event.target.value;
 
-		if (!AuthValidator.authPasswordValidate(password)) {
+		if (!Validator.AuthValidator.authPasswordValidate(password)) {
 			!isPasswordValidationError && this.setState({isPasswordValidationError: true})
 		} else {
 			isPasswordValidationError && this.setState({isPasswordValidationError: false})
@@ -44,7 +47,7 @@ class LoginForm extends Component {
 			isValidationError,
 		} = this.state;
 
-		if (!AuthValidator.authValidate({email, password})) {
+		if (!Validator.AuthValidator.authValidate({email, password})) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -52,10 +55,6 @@ class LoginForm extends Component {
 		isValidationError && this.setState({isValidationError: false});
 
 		this.props.auth(email, password);
-	};
-
-	cancel = () => {
-		this.props.back();
 	};
 
 	render() {
@@ -67,8 +66,13 @@ class LoginForm extends Component {
 			isPasswordValidationError,
 		} = this.state;
 
+		const {
+			REG,
+			FORGOT_PASSWORD
+		} = Url.PAGE;
+
 		return (
-			<Grid verticalAlign='middle' style={{ height: '100vh' }} columns={1} centered>
+			<Grid verticalAlign='middle' style={{height: '100vh'}} columns={1} centered>
 				<Grid.Row>
 					<Grid.Column>
 						<Form>
@@ -95,13 +99,13 @@ class LoginForm extends Component {
 								type='password'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Back</Button>
+								<Button onClick={this.props.history.goBack}>Back</Button>
 								<Button.Or/>
 								<Button onClick={this.onClickLogin} positive>Login</Button>
 							</Button.Group>
 							<Button.Group widths='2'>
-								<Button fluid basic onClick={this.props.openUserCreatePage}>Sign up</Button>
-								<Button fluid basic onClick={this.props.openUserForgotPasswordPage}>Forgot password?</Button>
+								<Button as={Link} to={REG} fluid basic>Sign up</Button>
+								<Button as={Link} to={FORGOT_PASSWORD} fluid basic>Forgot password?</Button>
 							</Button.Group>
 						</Form>
 					</Grid.Column>
@@ -111,4 +115,10 @@ class LoginForm extends Component {
 	}
 }
 
-export default LoginForm;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+	auth: (login, password) => Action.User.auth(login, password)(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

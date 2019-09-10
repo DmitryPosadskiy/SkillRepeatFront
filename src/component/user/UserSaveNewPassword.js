@@ -1,37 +1,23 @@
 import React, {Component} from 'react';
+import {Validator} from "../../common";
 import {Button, Form, Grid, Header} from "semantic-ui-react";
-import {ChangePasswordValidator} from "../common/Validator";
+import Action from "../../action";
+import {connect} from "react-redux";
 
-class ChangePassword extends Component {
-
+class UserSaveNewPassword extends Component {
 	state = {
-		oldPassword: '',
 		newPassword: '',
 		repeatNewPassword: '',
 		isValidationError: false,
-		isOldPasswordValidationError: true,
 		isNewPasswordValidationError: true,
 		isRepeatNewPasswordValidationError: true,
-	};
-
-	onChangeOldPassword = (event) => {
-		const {isOldPasswordValidationError} = this.state;
-		const password = event.target.value;
-
-		if (!ChangePasswordValidator.authPasswordValidate(password)) {
-			!isOldPasswordValidationError && this.setState({isOldPasswordValidationError: true})
-		} else {
-			isOldPasswordValidationError && this.setState({isOldPasswordValidationError: false})
-		}
-
-		this.setState({oldPassword: password});
 	};
 
 	onChangeNewPassword = (event) => {
 		const {isNewPasswordValidationError} = this.state;
 		const password = event.target.value;
 
-		if (!ChangePasswordValidator.authPasswordValidate(password)) {
+		if (!Validator.ChangePasswordValidator.authPasswordValidate(password)) {
 			!isNewPasswordValidationError && this.setState({isNewPasswordValidationError: true})
 		} else {
 			isNewPasswordValidationError && this.setState({isNewPasswordValidationError: false})
@@ -44,7 +30,7 @@ class ChangePassword extends Component {
 		const {isRepeatNewPasswordValidationError} = this.state;
 		const password = event.target.value;
 
-		if (!ChangePasswordValidator.authPasswordValidate(password)) {
+		if (!Validator.ChangePasswordValidator.authPasswordValidate(password)) {
 			!isRepeatNewPasswordValidationError && this.setState({isRepeatNewPasswordValidationError: true})
 		} else {
 			isRepeatNewPasswordValidationError && this.setState({isRepeatNewPasswordValidationError: false})
@@ -53,40 +39,37 @@ class ChangePassword extends Component {
 		this.setState({repeatNewPassword: password});
 	};
 
-	cancel = () => {
-		this.props.openUserSettingsPage();
-	};
-
 	onClickChangePassword = () => {
 		const {
-			oldPassword,
 			newPassword,
 			repeatNewPassword,
 			isValidationError,
 		} = this.state;
 
 		const {
-			userId,
-			changePassword,
+			savePassword,
+			match: {
+				params: {
+					hash,
+				} = {}
+			} = {},
 		} = this.props;
 
-		if (!ChangePasswordValidator.changePasswordValidate({oldPassword, newPassword, repeatNewPassword})) {
+		if (!Validator.SavePasswordValidator.savePasswordValidate({password: newPassword, repeat: repeatNewPassword})) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
 
 		isValidationError && this.setState({isValidationError: false});
 
-		changePassword(userId, oldPassword, newPassword);
+		savePassword(hash, newPassword);
 	};
 
 	render() {
 		const {
-			oldPassword,
 			newPassword,
 			repeatNewPassword,
 			isValidationError,
-			isOldPasswordValidationError,
 			isNewPasswordValidationError,
 			isRepeatNewPasswordValidationError,
 		} = this.state;
@@ -97,16 +80,8 @@ class ChangePassword extends Component {
 					<Grid.Column>
 						<Form>
 							<Header as='h2' color='teal' textAlign='center'>
-								Change password
+								Input my new password
 							</Header>
-							<Form.Input
-								value={oldPassword}
-								onChange={this.onChangeOldPassword}
-								fluid
-								error={isValidationError && isOldPasswordValidationError ? 'Please, fill this field' : undefined}
-								placeholder='Old password'
-								type='password'
-							/>
 							<Form.Input
 								value={newPassword}
 								onChange={this.onChangeNewPassword}
@@ -124,8 +99,6 @@ class ChangePassword extends Component {
 								type='password'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
-								<Button.Or />
 								<Button onClick={this.onClickChangePassword} positive>Save</Button>
 							</Button.Group>
 						</Form>
@@ -136,4 +109,11 @@ class ChangePassword extends Component {
 	}
 }
 
-export default ChangePassword;
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	savePassword: (hash, password) => Action.User.savePassword(hash, password)(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSaveNewPassword);

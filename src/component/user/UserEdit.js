@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Button, Divider, Form, Grid, Header, Icon, Modal} from "semantic-ui-react";
-import Action from '../action';
-import {CreateUserValidator} from "../common/Validator";
+import Action from '../../action';
+import {Validator} from "../../common";
 
-class AccountInfo extends Component {
+class UserEdit extends Component {
 
 	state = {
 		name: this.props.name,
@@ -22,7 +22,7 @@ class AccountInfo extends Component {
 		const {isNameValidationError} = this.state;
 		const name = event.target.value;
 
-		if (!CreateUserValidator.createUserNameValidate(name)) {
+		if (!Validator.CreateUserValidator.createUserNameValidate(name)) {
 			!isNameValidationError && this.setState({isNameValidationError: true})
 		} else {
 			isNameValidationError && this.setState({isNameValidationError: false})
@@ -35,7 +35,7 @@ class AccountInfo extends Component {
 		const {isAgreeGetEmailsValidationError} = this.state;
 		const isAgreeGetEmails = value.checked;
 
-		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeGetEmails)) {
+		if (!Validator.CreateUserValidator.createUserAgreeEmailValidate(isAgreeGetEmails)) {
 			!isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: true})
 		} else {
 			isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: false})
@@ -144,8 +144,6 @@ class AccountInfo extends Component {
 								label='I agree to get emails'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
-								<Button.Or/>
 								<Button onClick={this.onClickChangeAccountInfo} positive>Save</Button>
 							</Button.Group>
 							<Divider/>
@@ -210,4 +208,4 @@ const mapDispatchToProps = (dispatch) => ({
 	deleteUser: () => Action.User.deleteUser()(dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(UserEdit);

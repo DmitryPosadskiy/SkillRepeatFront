@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, Form, Grid, Header, Icon, Modal} from 'semantic-ui-react'
+import {Validator} from "../../common";
+import Action from "../../action";
 
-import {Button, Form, Grid, Header, Modal, Icon} from 'semantic-ui-react'
-import {CreateUserValidator, SkillValidator} from "../common/Validator";
-
-class CreateUser extends Component {
+class Registration extends Component {
 	state = {
 		email: '',
 		password: '',
@@ -31,7 +32,7 @@ class CreateUser extends Component {
 		const {isEmailValidationError} = this.state;
 		const email = event.target.value;
 
-		if (!CreateUserValidator.authEmailValidate(email)) {
+		if (!Validator.CreateUserValidator.authEmailValidate(email)) {
 			!isEmailValidationError && this.setState({isEmailValidationError: true})
 		} else {
 			isEmailValidationError && this.setState({isEmailValidationError: false})
@@ -44,7 +45,7 @@ class CreateUser extends Component {
 		const {isPasswordValidationError} = this.state;
 		const password = event.target.value;
 
-		if (!CreateUserValidator.authPasswordValidate(password)) {
+		if (!Validator.CreateUserValidator.authPasswordValidate(password)) {
 			!isPasswordValidationError && this.setState({isPasswordValidationError: true})
 		} else {
 			isPasswordValidationError && this.setState({isPasswordValidationError: false})
@@ -57,7 +58,7 @@ class CreateUser extends Component {
 		const {isNameValidationError} = this.state;
 		const name = event.target.value;
 
-		if (!CreateUserValidator.createUserNameValidate(name)) {
+		if (!Validator.CreateUserValidator.createUserNameValidate(name)) {
 			!isNameValidationError && this.setState({isNameValidationError: true})
 		} else {
 			isNameValidationError && this.setState({isNameValidationError: false})
@@ -74,7 +75,7 @@ class CreateUser extends Component {
 		const {isAgreeGetEmailsValidationError} = this.state;
 		const isAgreeGetEmails = value.checked;
 
-		if (!CreateUserValidator.createUserAgreeEmailValidate(isAgreeGetEmails)) {
+		if (!Validator.CreateUserValidator.createUserAgreeEmailValidate(isAgreeGetEmails)) {
 			!isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: true})
 		} else {
 			isAgreeGetEmailsValidationError && this.setState({isAgreeGetEmailsValidationError: false})
@@ -84,10 +85,10 @@ class CreateUser extends Component {
 	};
 
 	onChangeFormPeriod = (event) => {
-		const { isPeriodError } = this.state;
+		const {isPeriodError} = this.state;
 		const period = event.target.value;
 
-		if (SkillValidator.skillPeriodValidate(period)) {
+		if (Validator.SkillValidator.skillPeriodValidate(period)) {
 			isPeriodError && this.setState({isPeriodError: false});
 		} else {
 			!isPeriodError && this.setState({isPeriodError: true});
@@ -97,9 +98,9 @@ class CreateUser extends Component {
 	};
 
 	onChangeFormTime = (e, {value}) => {
-		const { isTimeError } = this.state;
+		const {isTimeError} = this.state;
 
-		if (SkillValidator.skillTimeValidate(value)) {
+		if (Validator.SkillValidator.skillTimeValidate(value)) {
 			isTimeError && this.setState({isTimeError: false});
 		} else {
 			!isTimeError && this.setState({isTimeError: true});
@@ -112,17 +113,13 @@ class CreateUser extends Component {
 		const {isAgreeTermsValidationError} = this.state;
 		const isAgreeTerms = value.checked;
 
-		if (!CreateUserValidator.createUserAgreeTermsValidate(isAgreeTerms)) {
+		if (!Validator.CreateUserValidator.createUserAgreeTermsValidate(isAgreeTerms)) {
 			!isAgreeTermsValidationError && this.setState({isAgreeTermsValidationError: true})
 		} else {
 			isAgreeTermsValidationError && this.setState({isAgreeTermsValidationError: false})
 		}
 
 		this.setState({isAgreeTerms});
-	};
-
-	cancel = () => {
-		this.props.back();
 	};
 
 	onRegistration = () => {
@@ -152,7 +149,7 @@ class CreateUser extends Component {
 			isAgreeTerms,
 		};
 
-		if (!CreateUserValidator.createUserValidate(user)) {
+		if (!Validator.CreateUserValidator.createUserValidate(user)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -292,7 +289,7 @@ class CreateUser extends Component {
 								label='I agree to the Terms and Conditions'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
+								<Button onClick={this.props.history.goBack}>Cancel</Button>
 								<Button.Or/>
 								<Button onClick={this.onRegistration} positive>Sign up</Button>
 							</Button.Group>
@@ -324,4 +321,10 @@ class CreateUser extends Component {
 	}
 }
 
-export default CreateUser;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+	registration: (user) => Action.User.registration(user)(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

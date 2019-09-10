@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Divider, Form, Grid, Header, Icon, Modal} from "semantic-ui-react";
-import Action from "../action";
-import {SkillEditValidator} from '../common/Validator';
+import Action from "../../action";
+import {Validator} from '../../common';
 
-class SkillEditPage extends Component {
+class SkillEdit extends Component {
 	state = {
-		id: this.props.skill.id,
-		name: this.props.skill.name,
-		period: this.props.skill.period,
-		time: this.props.skill.time,
+		id: this.props.skills.filter(skill => this.props.match.params.id === skill.id)[0].id,
+		name: this.props.skills.filter(skill => this.props.match.params.id === skill.id)[0].name,
+		period: this.props.skills.filter(skill => this.props.match.params.id === skill.id)[0].period,
+		time: this.props.skills.filter(skill => this.props.match.params.id === skill.id)[0].time,
 
 		isChangeNotificationSetting: false,
 
@@ -25,7 +25,7 @@ class SkillEditPage extends Component {
 		const {isNameValidationError} = this.state;
 		const name = event.target.value;
 
-		if (!SkillEditValidator.skillNameValidate(name)) {
+		if (!Validator.SkillEditValidator.skillNameValidate(name)) {
 			!isNameValidationError && this.setState({isNameValidationError: true})
 		} else {
 			isNameValidationError && this.setState({isNameValidationError: false})
@@ -38,7 +38,7 @@ class SkillEditPage extends Component {
 		const {isPeriodError} = this.state;
 		const period = event.target.value;
 
-		if (SkillEditValidator.skillPeriodValidate(period)) {
+		if (Validator.SkillEditValidator.skillPeriodValidate(period)) {
 			isPeriodError && this.setState({isPeriodError: false});
 		} else {
 			!isPeriodError && this.setState({isPeriodError: true});
@@ -50,7 +50,7 @@ class SkillEditPage extends Component {
 	onChangeFormTime = (e, {value}) => {
 		const {isTimeError} = this.state;
 
-		if (SkillEditValidator.skillTimeValidate(value)) {
+		if (Validator.SkillEditValidator.skillTimeValidate(value)) {
 			isTimeError && this.setState({isTimeError: false});
 		} else {
 			!isTimeError && this.setState({isTimeError: true});
@@ -74,7 +74,6 @@ class SkillEditPage extends Component {
 	deleteSkill = (id) => {
 		this.props.deleteSkill(this.props.userId, id);
 		this.closeModal();
-		this.props.openMainPage();
 	};
 
 	onClickSkillEdit = () => {
@@ -98,7 +97,7 @@ class SkillEditPage extends Component {
 			time,
 		};
 
-		if (!SkillEditValidator.skillEditValidate(skill)) {
+		if (!Validator.SkillEditValidator.skillEditValidate(skill)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -106,7 +105,6 @@ class SkillEditPage extends Component {
 		isValidationError && this.setState({isValidationError: false});
 
 		editSkill(userId, skill);
-		this.props.openMainPage();
 	};
 
 	render() {
@@ -125,10 +123,6 @@ class SkillEditPage extends Component {
 
 			isModalOpen,
 		} = this.state;
-
-		const {
-			cancel,
-		} = this.props;
 
 		return (
 			<Grid verticalAlign='middle' style={{height: '100vh'}} columns={1} centered>
@@ -175,8 +169,6 @@ class SkillEditPage extends Component {
 								)
 							}
 							<Button.Group fluid>
-								<Button onClick={cancel}>Cancel</Button>
-								<Button.Or/>
 								<Button onClick={this.onClickSkillEdit} positive>Save</Button>
 							</Button.Group>
 							<Divider/>
@@ -211,14 +203,13 @@ class SkillEditPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	skill: state.user.user.skills.filter(skill => state.user.choseSkillId === skill.id)[0],
+	skills: state.user.user.skills,
 	userId: state.user.user.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	editSkill: (userId, skill) => Action.User.editSkill(userId, skill)(dispatch),
 	deleteSkill: (userId, skillId) => Action.User.deleteSkill(userId, skillId)(dispatch),
-	openMainPage: () => dispatch(Action.Page.openMainPage()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillEditPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillEdit);

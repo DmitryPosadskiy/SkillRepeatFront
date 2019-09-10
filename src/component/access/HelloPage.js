@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Header, Image, List, Transition} from "semantic-ui-react";
-import {HelloPageValidator} from "../common/Validator";
-import Action from "../action";
+import {Url, Validator} from '../../common';
+import Action from "../../action";
+import {Link} from "react-router-dom";
 
 class HelloPage extends Component {
 	state = {
@@ -40,7 +41,7 @@ class HelloPage extends Component {
 		const {isEmailValidationError} = this.state;
 		const email = event.target.value;
 
-		if (!HelloPageValidator.authEmailValidate(email)) {
+		if (!Validator.HelloPageValidator.authEmailValidate(email)) {
 			!isEmailValidationError && this.setState({isEmailValidationError: true})
 		} else {
 			isEmailValidationError && this.setState({isEmailValidationError: false})
@@ -53,7 +54,7 @@ class HelloPage extends Component {
 		const {isPasswordValidationError} = this.state;
 		const password = event.target.value;
 
-		if (!HelloPageValidator.authPasswordValidate(password)) {
+		if (!Validator.HelloPageValidator.authPasswordValidate(password)) {
 			!isPasswordValidationError && this.setState({isPasswordValidationError: true})
 		} else {
 			isPasswordValidationError && this.setState({isPasswordValidationError: false})
@@ -66,7 +67,7 @@ class HelloPage extends Component {
 		const {isPeriodValidationError} = this.state;
 		const period = event.target.value;
 
-		if (HelloPageValidator.helloPagePeriodValidate(period)) {
+		if (Validator.HelloPageValidator.helloPagePeriodValidate(period)) {
 			isPeriodValidationError && this.setState({isPeriodValidationError: false});
 		} else {
 			!isPeriodValidationError && this.setState({isPeriodValidationError: true});
@@ -78,7 +79,7 @@ class HelloPage extends Component {
 	onChangeFormTime = (e, {value}) => {
 		const {isTimeValidationError} = this.state;
 
-		if (HelloPageValidator.helloPageTimeValidate(value)) {
+		if (Validator.HelloPageValidator.helloPageTimeValidate(value)) {
 			isTimeValidationError && this.setState({isTimeValidationError: false});
 		} else {
 			!isTimeValidationError && this.setState({isTimeValidationError: true});
@@ -100,7 +101,7 @@ class HelloPage extends Component {
 
 		const {
 			openMainPage,
-			registrationWithSkills,
+			registration,
 		} = this.props;
 
 		const user = {
@@ -108,7 +109,7 @@ class HelloPage extends Component {
 			password,
 		};
 
-		if (!HelloPageValidator.helloPageValidate(user)) {
+		if (!Validator.HelloPageValidator.helloPageValidate(user)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -119,7 +120,7 @@ class HelloPage extends Component {
 		if (time) user.time = time;
 		if (skills && skills.length > 0) user.skills = skills;
 
-		registrationWithSkills(user);
+		registration(user);
 		openMainPage();
 	};
 
@@ -139,9 +140,9 @@ class HelloPage extends Component {
 		} = this.state;
 
 		const {
-			openUserLoginPage,
-			openUserCreatePage,
-		} = this.props;
+			REG,
+			AUTH,
+		} = Url.PAGE;
 
 		return (
 			<div>
@@ -157,9 +158,9 @@ class HelloPage extends Component {
 				</div>
 				<div style={{marginTop: '14px'}}>
 					<Button.Group>
-						<Button onClick={openUserCreatePage} positive>Registration</Button>
+						<Button as={Link} to={REG} positive>Registration</Button>
 						<Button.Or text='|'/>
-						<Button onClick={openUserLoginPage} positive>Authorization</Button>
+						<Button as={Link} to={AUTH} positive>Authorization</Button>
 					</Button.Group>
 				</div>
 				<div style={{marginTop: '20px'}}>
@@ -175,7 +176,7 @@ class HelloPage extends Component {
 									onChange={(event) => this.onChangeSkillName(event, index)}
 									style={{margin: 0}}
 									fluid
-									placeholder='Java, Python, ...'
+									placeholder='Java / Python / ...'
 								/>
 							))}
 						</Form>
@@ -258,10 +259,7 @@ class HelloPage extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	openMainPage: () => dispatch(Action.Page.openMainPage()),
-	openUserLoginPage: () => dispatch(Action.Page.openUserLoginPage()),
-	openUserCreatePage: () => dispatch(Action.Page.openUserCreatePage()),
-	registrationWithSkills: (user) => Action.User.registrationWithSkills(user)(dispatch),
+	registration: (user) => Action.User.registration(user)(dispatch),
 });
 
 export default connect(undefined, mapDispatchToProps)(HelloPage);

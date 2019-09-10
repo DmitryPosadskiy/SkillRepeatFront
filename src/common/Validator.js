@@ -30,15 +30,18 @@ export const AuthValidator = {
 	authPasswordValidate,
 };
 
-const changePasswordValidate = (auth) => authPasswordValidate(auth.oldPassword)
-	&& authPasswordValidate(auth.newPassword)
-	&& authPasswordValidate(auth.repeatNewPassword)
-	&& authPasswordValidate(auth.newPassword, auth.repeatNewPassword);
-
 const authPasswordsAreEquals = (pass, anotherPass) => pass === anotherPass;
 
 export const ChangePasswordValidator = {
-	changePasswordValidate,
+	authPasswordValidate,
+};
+
+const savePasswordValidate = (pass) => authPasswordValidate(pass.password)
+	&& authPasswordValidate(pass.repeat)
+	&& authPasswordValidate(pass.password, pass.repeat);
+
+export const SavePasswordValidator = {
+	savePasswordValidate,
 	authPasswordValidate,
 	authPasswordsAreEquals
 };

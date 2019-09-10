@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Grid, Header} from "semantic-ui-react";
-import {ChangeEmailValidator, CreateUserValidator} from "../common/Validator";
-import Action from "../action";
+import {Validator} from "../../common";
+import Action from "../../action";
 
-class ChangeEmail extends Component {
+class UserChangeEmail extends Component {
 
 	state = {
 		email: this.props.email,
@@ -17,7 +17,7 @@ class ChangeEmail extends Component {
 		const {isEmailValidationError} = this.state;
 		const email = event.target.value;
 
-		if (!CreateUserValidator.authEmailValidate(email)) {
+		if (!Validator.CreateUserValidator.authEmailValidate(email)) {
 			!isEmailValidationError && this.setState({isEmailValidationError: true})
 		} else {
 			isEmailValidationError && this.setState({isEmailValidationError: false})
@@ -42,7 +42,7 @@ class ChangeEmail extends Component {
 			changeUserEmail,
 		} = this.props;
 
-		if (!ChangeEmailValidator.authEmailValidate(email)) {
+		if (!Validator.ChangeEmailValidator.authEmailValidate(email)) {
 			!isValidationError && this.setState({isValidationError: true});
 			return;
 		}
@@ -82,8 +82,6 @@ class ChangeEmail extends Component {
 								placeholder='Email'
 							/>
 							<Button.Group fluid>
-								<Button onClick={this.cancel}>Cancel</Button>
-								<Button.Or />
 								<Button onClick={this.onClickChangeEmail} positive>Save</Button>
 							</Button.Group>
 						</Form>
@@ -103,4 +101,4 @@ const mapDispatchToProps = (dispatch) => ({
 	changeUserEmail: (email) => Action.User.changeUserEmail(email)(dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangeEmail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserChangeEmail);
