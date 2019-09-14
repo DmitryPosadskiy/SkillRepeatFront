@@ -141,6 +141,21 @@ const savePassword = (hash, password) => dispatch => {
 		}));
 };
 
+const goToTelegram = (userId) => dispatch => {
+	dispatch(startLoading());
+	axios.get(Url.USER.GET_TELEGRAM_LINK(userId), Setting.RequestConfig)
+		.then((result) => {
+			dispatch({
+				type: ActionType.User.GET_TELEGRAM_LINK,
+			});
+			History.push(Url.PAGE.TELEGRAM(result.data.hash));
+		})
+		.catch(error => dispatch({
+			type: ActionType.User.GET_TELEGRAM_LINK,
+			error: Utils.toError(error),
+		}));
+};
+
 const changeUserEmail = (auth) => dispatch => {
 	const authForSave = {
 		...auth,
@@ -320,6 +335,7 @@ const User = {
 	choseSkillId,
 	sendMessage,
 	confirmEmail,
+	goToTelegram,
 	readError,
 };
 

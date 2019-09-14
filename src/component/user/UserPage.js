@@ -18,6 +18,7 @@ class UserPage extends Component {
 			USER_NOTIFICATION,
 			USER_EMAIL,
 			USER_PASSWORD,
+			MESSENGER_PAGE,
 			START,
 			CONTACT,
 		} = Url.PAGE;
@@ -32,6 +33,7 @@ class UserPage extends Component {
 					<Button as={Link} to={USER_NOTIFICATION}>Notifications</Button>
 					<Button as={Link} to={USER_EMAIL}>Change email</Button>
 					<Button as={Link} to={USER_PASSWORD}>Change password</Button>
+					<Button as={Link} to={MESSENGER_PAGE}>Add messengers</Button>
 					<Button as={Link} to={START} onClick={logOut}>Log out</Button>
 				</Button.Group>
 

@@ -37,6 +37,10 @@ const user = (state = defaultState, action) => {
 			...state,
 			isLoading: false,
 		};
+		case ActionType.User.GET_TELEGRAM_LINK: return {
+			...state,
+			isLoading: false,
+		};
 		case ActionType.User.SAVE_PASSWORD: return {
 			...state,
 			user: action.user,

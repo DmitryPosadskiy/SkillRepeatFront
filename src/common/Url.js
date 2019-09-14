@@ -20,6 +20,9 @@ const USER = {
 	UPDATE: USER_MAIN,
 	REPEAT_SKILL: (userId, skillId) =>  USER_MAIN + `${userId}/skill/repeat/${skillId}`,
 	SEND_MESSAGE: (userId) =>  USER_MAIN + `${userId}/sendMessage`,
+	GET_TELEGRAM_LINK: (userId) =>  USER_MAIN + `${userId}/getTelegramLink`,
+
+	TELEGRAM: (hash) => `https://t.me/SkillRepeaterBot?start=${hash}`,
 };
 
 const PAGE = {
@@ -28,6 +31,8 @@ const PAGE = {
 	AUTH: '/auth',
 	REG: '/reg',
 	CONFIRM_EMAIL: (hash) => hash ? `/confirm-email/${hash}` : '/confirm-email/:hash',
+	MESSENGER_PAGE: '/add-messenger',
+	TELEGRAM: (hash) => hash ? `/add-telegram/${hash}` : '/add-telegram/:hash',
 	LOGOUT: '/logout',
 	FORGOT_PASSWORD: '/forgot-password',
 	SKILL: '/skill',

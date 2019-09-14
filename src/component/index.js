@@ -14,6 +14,11 @@ import {
 } from './common';
 
 import {
+	MessengerPage,
+	Telegram,
+} from './messenger';
+
+import {
 	NewSkill,
 	NewSkills,
 	Skill,
@@ -48,6 +53,8 @@ export {
 	Footer,
 	Header,
 	Loader,
+	MessengerPage,
+	Telegram,
 	NewSkill,
 	NewSkills,
 	Skill,

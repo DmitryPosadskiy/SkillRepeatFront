@@ -52,7 +52,7 @@ class ContactUs extends Component {
 		isValidationError && this.setState({isValidationError: false});
 
 		sendMessage(userId, message);
-	};F
+	};
 
 	render() {
 		const {

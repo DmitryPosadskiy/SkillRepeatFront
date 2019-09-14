@@ -18,6 +18,8 @@ import {
 	Registration,
 	ConfirmEmail,
 	ForgotPassword,
+	MessengerPage,
+	Telegram,
 	Page404,
 	PrivateRoute,
 } from "../component";
@@ -30,6 +32,8 @@ class Routes extends Component {
 			AUTH,
 			REG,
 			CONFIRM_EMAIL,
+			MESSENGER_PAGE,
+			TELEGRAM,
 			LOGOUT,
 			FORGOT_PASSWORD,
 			USER,
@@ -61,6 +65,8 @@ class Routes extends Component {
 				<Route exact path={REG} component={Registration}/>
 				<Route exact path={CONFIRM_EMAIL()} component={ConfirmEmail}/>
 				<Route exact path={FORGOT_PASSWORD} component={ForgotPassword}/>
+				<Route exact path={MESSENGER_PAGE} component={MessengerPage}/>
+				<Route exact path={TELEGRAM()} component={Telegram}/>
 				<PrivateRoute exact path={SKILL_PAGE()} component={SkillPage}/>
 				<PrivateRoute path={SKILL_EDIT()} component={SkillEdit}/>
 				<Route component={Page404}/>
